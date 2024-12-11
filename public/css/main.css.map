@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "main.css",
-	"sourceRoot": "/home/eli/Projects/website/elipersonal",
+	"sourceRoot": "/home/eli/Projects/website/elipws",
 	"sources": [
 		"themes/no-style-please/assets/css/main.scss"
 	],

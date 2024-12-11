@@ -1,5 +1,5 @@
 +++
-date = '2024-08-04T17:36:51-08:00'
+date = '2023-08-04T17:36:51-08:00'
 title = 'Git'
 toc = true
 tocBorder = true
