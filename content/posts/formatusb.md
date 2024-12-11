@@ -14,7 +14,7 @@ sda           8:0    0 953.9G  0 disk
 ├─sda2        8:2    0 457.9G  0 part
 └─sda3        8:3    0   495G  0 part /
 sdb           8:16   1 117.8G  0 disk
-└─sdb1        8:17   1    64M  0 part 
+└─sdb1        8:17   1    64M  0 part
 nvme0n1     259:0    0 931.5G  0 disk
 ├─nvme0n1p1 259:1    0   100M  0 part
 ├─nvme0n1p2 259:2    0    16M  0 part

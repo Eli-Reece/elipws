@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=43439&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Hardware
+STM32F411CEU6 (Blackpill)
+
+WeAct Aliexpress
+
+ST-Link V2
+
+Amazon, Aliexpress
+
+MicroSD card breakout board&#43;
+
+https://www.adafruit.com/product/254
+Get a 4-bit SDIO supported version instead
+
+PNY 32GB MicroSD card
+
+https://a.co/d/beuO1eM
+format as FATFS and place a wav file named &rsquo;test.wav&#39;
+
+HiLetgo PCM5102 DAC Module
+
+https://a.co/d/6E7AqkR
+
+FT232RL
+
+https://a.co/d/0zQwKG9 or https://a.co/d/czLOEFI
+
+A Reliable 5V supply
+
+https://a.co/d/8YocysH
+
+I2S - PCM5102 Soldering/Wiring
+
+Solder the PCM5102 H1-4L as follows:
+
+  
+      
+          Pad
+          Signal
+          Level
+          Description
+      
+  
+  
+      
+          H1L
+          FLT
+          GND
+          Normal Latency
+      
+      
+          H2L
+          DEMP
+          GND
+          De-emphasis control off
+      
+      
+          H3L
+          XMST
+          3.3V
+          Soft un-mute
+      
+      
+          H4L
+          FMT
+          GND
+          I2S
+      
+  
+
+
+Wire the PCM5102 as follows:
+
+  
+      
+          STM32
+          PCM5102
+      
+  
+  
+      
+          WS
+          LCK
+      
+      
+          CK
+          BCK
+      
+      
+          SD
+          DIN
+      
+      
+          GND
+          SCK
+      
+  
+
+
+See this link for more info on the PCM5102
+
+CubeMX
+
+See my post on my Arch STM32 workflow
+
+Clock Configuration
+
+Set it to 100MHz cus why not
+
+USART2 - Debug/Printf()
+
+115200,8N1
+
+
+SPI2 - SD Card
+
+8 bit data size
+We&rsquo;ll set the prescaler in SW so it doesn&rsquo;t really matter
+
+Pull-up MISO and MOSI lines
+Depending on your SD card module schematic you may not need to pullup the data lines
+
+
+SPI2 Chip Select
+
+I chose PB13 for its proximity, be sure to pull up the CS as well
+
+
+I2S1 - DAC/Audio
+
+16 bits data on 16 bits frame
+44 KHz
+This is to match my wav file but you can also dynamically set this
+
+Enable both global interrupts
+
+Half word data width (16 bit data)
+Circular mode, incrementing the memory address
+
+No need to pull up these lines but set the output to high
+
+
+Middleware - FATFS
+
+User Defined
+Make sure the min and max sector sizes are 512
+
+
+Software
+user_diskio_spi.c/.h
+
+Copy these two files into FATFS/Target
+https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.c
+https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.h
+
+Modify user_diskio.c to use your new files
+
+Line numbers may not be correct, use your judgement
+
+user_diskio.c
+38d37
+&#43; #include &#34;user_diskio_spi.h&#34;
+85c84,85
+&#43;     return USER_SPI_initialize(pdrv);
+---
+-     Stat = STA_NOINIT;
+-     return Stat;
+99c99,100
+&#43;     return USER_SPI_status(pdrv);
+---
+-     Stat = STA_NOINIT;
+-     return Stat;
+119c120
+&#43;     return USER_SPI_read(pdrv,buff,sector,count);
+---
+-     return RES_OK;
+141c142
+&#43;    return USER_SPI_write(pdrv,buff,sector,count);
+---
+-     return RES_OK;
+161c162,163
+&#43;     return USER_SPI_ioctl(pdrv,cmd,buff);
+---
+-     DRESULT res = RES_ERROR;
+-     return res;
+Setup main.h according to user_diskio_spi.c
+user_diskio_spi.c
+//Make sure you set #define SD_SPI_HANDLE as some hspix in main.h
+//Make sure you set #define SD_CS_GPIO_Port as some GPIO port in main.h
+//Make sure you set #define SD_CS_Pin as some GPIO pin in main.h
+/* Private defines ------------------------------------*/
+#define SD_CS_Pin GPIO_PIN_13
+#define SD_CS_GPIO_Port GPIOB
+
+/* USER CODE BEGIN Private defines */
+#define SD_SPI_HANDLE hspi2
+/* USER CODE END Private defines */
+Add user_diskio_spi.c to the Makefile
+# C sources
+C_SOURCES =  \
+Core/Src/main.c \
+...
+FATFS/Target/user_diskio.c \
+FATFS/Target/user_diskio_spi.c \
+...
+My main.c
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;stdbool.h&gt;
+/* USER CODE END Includes */
+
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+/* USER CODE BEGIN PFP */
+void qprint(const char *fmt, ...);
+void qprint(const char *fmt, ...)
+{
+  static char buffer[256];
+  va_list args;
+  va_start(args, fmt);
+  vsnprintf(buffer, sizeof(buffer), fmt, args);
+  va_end(args);
+
+  int len = strlen(buffer);
+  HAL_UART_Transmit(&amp;huart2, (uint8_t*)buffer, len, -1);
+}
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+// Globals /////////////////////////////////////////////////////////////////////
+FATFS fatfs;
+FRESULT fres;
+FIL fil;
+UINT bytesRead;
+
+// For 44.1kHz stereo, one frame is 2 samples (left &#43; right channel)
+#define SAMPLES_PER_FRAME 2
+#define SAMPLE_RATE 44100
+#define BUFFER_TIME_MS 20  // 20ms buffer is a good compromise
+
+// Calculate buffer size based on sample rate
+#define AUDIO_BUFFER_SIZE ((SAMPLE_RATE * BUFFER_TIME_MS * SAMPLES_PER_FRAME) / 1000)
+#define HALF_BUFFER_SIZE (AUDIO_BUFFER_SIZE/2)
+
+int16_t samples[AUDIO_BUFFER_SIZE];
+
+uint32_t fread_size = 0;
+uint32_t recording_size = 0;
+uint32_t played_size = 0;
+
+volatile bool isHalfBufferDone = false;
+volatile bool isFullBufferDone = false;
+
+// Callbacks ///////////////////////////////////////////////////////////////////
+void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+	isHalfBufferDone = true;
+}
+
+void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+	isFullBufferDone = true;
+    played_size &#43;= AUDIO_BUFFER_SIZE;
+}
+
+// Main ////////////////////////////////////////////////////////////////////////
+int main(void)
+{
+    // Abstraction Layer and System Clock
+    HAL_Init();
+    SystemClock_Config();
+
+    // Peripheral Init
+    MX_GPIO_Init();
+    MX_USART2_UART_Init();
+    MX_DMA_Init();
+    MX_FATFS_Init();
+    MX_SPI2_Init();
+    MX_I2S1_Init();
+
+    // Delay for SD Card
+    HAL_Delay(1000);
+
+    // Open the file system
+    fres = f_mount(&amp;fatfs, &#34;&#34;, 1);
+    if (fres != FR_OK) {
+        qprint(&#34;f_mount error (%i)\r\n&#34;, fres);
+    }
+
+    // Open the Song
+    fres = f_open(&amp;fil, &#34;test.wav&#34;, FA_READ);
+
+    // Get song header data
+    uint8_t header[44];
+    f_read(&amp;fil, header, 44, &amp;bytesRead);
+    qprint(&#34;Sample Rate: %d\r\n&#34;, *(uint32_t*)(header &#43; 24));
+    qprint(&#34;Bits Per Sample: %d\r\n&#34;, *(uint16_t*)(header &#43; 34));
+    qprint(&#34;Channels: %d\r\n&#34;, *(uint16_t*)(header &#43; 22));
+
+    // Get Song Size
+    f_lseek(&amp;fil, 40);
+    f_read(&amp;fil, &amp;recording_size, 4, &amp;bytesRead);
+    qprint(&#34;Recording Size: %d\r\n&#34;, recording_size);
+
+    // Play the Song
+    f_read(&amp;fil, samples, AUDIO_BUFFER_SIZE * sizeof(uint16_t), &amp;bytesRead);
+    HAL_I2S_Transmit_DMA(&amp;hi2s1, (uint16_t *)samples, AUDIO_BUFFER_SIZE);
+
+    while(1)
+    {
+        if (isHalfBufferDone) {
+            f_read(&amp;fil, samples, HALF_BUFFER_SIZE * sizeof(uint16_t),
+                &amp;bytesRead);
+            isHalfBufferDone = false;
+        }
+
+        if (isFullBufferDone) {
+            f_read(&amp;fil, &amp;samples[HALF_BUFFER_SIZE],
+                HALF_BUFFER_SIZE * sizeof(uint16_t), &amp;bytesRead);
+            isFullBufferDone = false;
+        }
+
+        if (played_size &gt;= recording_size) {
+            HAL_I2S_DMAStop(&amp;hi2s1);
+        }
+    }
+
+    // Unmount the FS
+    f_mount(NULL, &#34;&#34;, 0);
+}
+/* USER CODE END 0 */
+">  
+
+  <title>
+    
+      STM32 WAV Player
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-12-10 21:58:17 -0800 PST">
+                            2024-12-10
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>STM32 WAV Player</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#hardware">Hardware</a>
+      <ul>
+        <li><a href="#i2s---pcm5102-solderingwiring">I2S - PCM5102 Soldering/Wiring</a></li>
+      </ul>
+    </li>
+    <li><a href="#cubemx">CubeMX</a>
+      <ul>
+        <li><a href="#clock-configuration">Clock Configuration</a></li>
+        <li><a href="#usart2---debugprintf">USART2 - Debug/Printf()</a></li>
+        <li><a href="#spi2---sd-card">SPI2 - SD Card</a></li>
+        <li><a href="#spi2-chip-select">SPI2 Chip Select</a></li>
+        <li><a href="#i2s1---dacaudio">I2S1 - DAC/Audio</a></li>
+        <li><a href="#middleware---fatfs">Middleware - FATFS</a></li>
+      </ul>
+    </li>
+    <li><a href="#software">Software</a>
+      <ul>
+        <li><a href="#user_diskio_spich">user_diskio_spi.c/.h</a></li>
+        <li><a href="#modify-user_diskioc-to-use-your-new-files">Modify user_diskio.c to use your new files</a></li>
+        <li><a href="#setup-mainh-according-to-user_diskio_spic">Setup main.h according to user_diskio_spi.c</a></li>
+        <li><a href="#add-user_diskio_spic-to-the-makefile">Add user_diskio_spi.c to the Makefile</a></li>
+        <li><a href="#my-mainc">My main.c</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="hardware">Hardware</h2>
+<p>STM32F411CEU6 (Blackpill)</p>
+<ul>
+<li>WeAct Aliexpress</li>
+</ul>
+<p>ST-Link V2</p>
+<ul>
+<li>Amazon, Aliexpress</li>
+</ul>
+<p>MicroSD card breakout board+</p>
+<ul>
+<li><a href="https://www.adafruit.com/product/254">https://www.adafruit.com/product/254</a></li>
+<li>Get a 4-bit SDIO supported version instead</li>
+</ul>
+<p>PNY 32GB MicroSD card</p>
+<ul>
+<li><a href="https://a.co/d/beuO1eM">https://a.co/d/beuO1eM</a></li>
+<li>format as FATFS and place a wav file named &rsquo;test.wav'</li>
+</ul>
+<p>HiLetgo PCM5102 DAC Module</p>
+<ul>
+<li><a href="https://a.co/d/6E7AqkR">https://a.co/d/6E7AqkR</a></li>
+</ul>
+<p>FT232RL</p>
+<ul>
+<li><a href="https://a.co/d/0zQwKG9">https://a.co/d/0zQwKG9</a> or <a href="https://a.co/d/czLOEFI">https://a.co/d/czLOEFI</a></li>
+</ul>
+<p>A Reliable 5V supply</p>
+<ul>
+<li><a href="https://a.co/d/8YocysH">https://a.co/d/8YocysH</a></li>
+</ul>
+<h3 id="i2s---pcm5102-solderingwiring">I2S - PCM5102 Soldering/Wiring</h3>
+<ul>
+<li>Solder the PCM5102 H1-4L as follows:
+<table>
+  <thead>
+      <tr>
+          <th>Pad</th>
+          <th>Signal</th>
+          <th>Level</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>H1L</td>
+          <td>FLT</td>
+          <td>GND</td>
+          <td>Normal Latency</td>
+      </tr>
+      <tr>
+          <td>H2L</td>
+          <td>DEMP</td>
+          <td>GND</td>
+          <td>De-emphasis control off</td>
+      </tr>
+      <tr>
+          <td>H3L</td>
+          <td>XMST</td>
+          <td>3.3V</td>
+          <td>Soft un-mute</td>
+      </tr>
+      <tr>
+          <td>H4L</td>
+          <td>FMT</td>
+          <td>GND</td>
+          <td>I2S</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>Wire the PCM5102 as follows:
+<table>
+  <thead>
+      <tr>
+          <th>STM32</th>
+          <th>PCM5102</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>WS</td>
+          <td>LCK</td>
+      </tr>
+      <tr>
+          <td>CK</td>
+          <td>BCK</td>
+      </tr>
+      <tr>
+          <td>SD</td>
+          <td>DIN</td>
+      </tr>
+      <tr>
+          <td>GND</td>
+          <td>SCK</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>See <a href="https://macsbug.wordpress.com/wp-content/uploads/2021/02/pcm5102a_dac_schematic_600s-min.png">this link</a> for more info on the PCM5102</li>
+</ul>
+<h2 id="cubemx">CubeMX</h2>
+<ul>
+<li>See my <a href="https://elishareece.com/posts/archstm32/">post</a> on my Arch STM32 workflow</li>
+</ul>
+<h3 id="clock-configuration">Clock Configuration</h3>
+<ul>
+<li>Set it to 100MHz cus why not</li>
+</ul>
+<h3 id="usart2---debugprintf">USART2 - Debug/Printf()</h3>
+<ul>
+<li>115200,8N1
+<img src="/images/USART_config.png" alt="USART_config"></li>
+</ul>
+<h3 id="spi2---sd-card">SPI2 - SD Card</h3>
+<ul>
+<li>8 bit data size</li>
+<li>We&rsquo;ll set the prescaler in SW so it doesn&rsquo;t really matter
+<img src="/images/SPI2_config.png" alt="SPI2"></li>
+<li>Pull-up MISO and MOSI lines</li>
+<li>Depending on your SD card module schematic you may not need to pullup the data lines
+<img src="/images/SPIPIN_config.png" alt="SPIpins"></li>
+</ul>
+<h3 id="spi2-chip-select">SPI2 Chip Select</h3>
+<ul>
+<li>I chose PB13 for its proximity, be sure to pull up the CS as well
+<img src="/images/SPICS_config.png" alt="SPICS"></li>
+</ul>
+<h3 id="i2s1---dacaudio">I2S1 - DAC/Audio</h3>
+<ul>
+<li>16 bits data on 16 bits frame</li>
+<li>44 KHz</li>
+<li>This is to match my wav file but you can also dynamically set this
+<img src="/images/I2S_config.png" alt="I2S"></li>
+<li>Enable both global interrupts
+<img src="/images/i2s_nvic.png" alt="I2Snvic"></li>
+<li>Half word data width (16 bit data)</li>
+<li>Circular mode, incrementing the memory address
+<img src="/images/i2s_dma.png" alt="I2Sdma"></li>
+<li>No need to pull up these lines but set the output to high
+<img src="/images/i2s_gpio.png" alt="I2Sgpio"></li>
+</ul>
+<h3 id="middleware---fatfs">Middleware - FATFS</h3>
+<ul>
+<li>User Defined</li>
+<li>Make sure the min and max sector sizes are 512
+<img src="/images/FATFS.png" alt="FATFS"></li>
+</ul>
+<h2 id="software">Software</h2>
+<h3 id="user_diskio_spich">user_diskio_spi.c/.h</h3>
+<ul>
+<li>Copy these two files into FATFS/Target</li>
+<li><a href="https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.c">https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.c</a></li>
+<li><a href="https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.h">https://github.com/kiwih/cubeide-sd-card/blob/master/cubeide-sd-card/FATFS/Target/user_diskio_spi.h</a></li>
+</ul>
+<h3 id="modify-user_diskioc-to-use-your-new-files">Modify user_diskio.c to use your new files</h3>
+<ul>
+<li>Line numbers may not be correct, use your judgement</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>user_diskio.c
+</span></span><span style="display:flex;"><span><span style="color:#75715e">38d37
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+ #include &#34;user_diskio_spi.h&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">85c84,85
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+     return USER_SPI_initialize(pdrv);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="font-weight:bold">---
+</span></span></span><span style="display:flex;"><span><span style="font-weight:bold"></span><span style="color:#f92672">-     Stat = STA_NOINIT;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-     return Stat;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#75715e">99c99,100
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+     return USER_SPI_status(pdrv);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="font-weight:bold">---
+</span></span></span><span style="display:flex;"><span><span style="font-weight:bold"></span><span style="color:#f92672">-     Stat = STA_NOINIT;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-     return Stat;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#75715e">119c120
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+     return USER_SPI_read(pdrv,buff,sector,count);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="font-weight:bold">---
+</span></span></span><span style="display:flex;"><span><span style="font-weight:bold"></span><span style="color:#f92672">-     return RES_OK;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#75715e">141c142
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+    return USER_SPI_write(pdrv,buff,sector,count);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="font-weight:bold">---
+</span></span></span><span style="display:flex;"><span><span style="font-weight:bold"></span><span style="color:#f92672">-     return RES_OK;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#75715e">161c162,163
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">+     return USER_SPI_ioctl(pdrv,cmd,buff);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="font-weight:bold">---
+</span></span></span><span style="display:flex;"><span><span style="font-weight:bold"></span><span style="color:#f92672">-     DRESULT res = RES_ERROR;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-     return res;
+</span></span></span></code></pre></div><h3 id="setup-mainh-according-to-user_diskio_spic">Setup main.h according to user_diskio_spi.c</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>user_diskio_spi.c
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//Make sure you set #define SD_SPI_HANDLE as some hspix in main.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//Make sure you set #define SD_CS_GPIO_Port as some GPIO port in main.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//Make sure you set #define SD_CS_Pin as some GPIO pin in main.h
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#75715e">/* Private defines ------------------------------------*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define SD_CS_Pin GPIO_PIN_13
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define SD_CS_GPIO_Port GPIOB
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE BEGIN Private defines */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define SD_SPI_HANDLE hspi2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/* USER CODE END Private defines */</span>
+</span></span></code></pre></div><h3 id="add-user_diskio_spic-to-the-makefile">Add user_diskio_spi.c to the Makefile</h3>
+<pre tabindex="0"><code># C sources
+C_SOURCES =  \
+Core/Src/main.c \
+...
+FATFS/Target/user_diskio.c \
+FATFS/Target/user_diskio_spi.c \
+...
+</code></pre><h3 id="my-mainc">My main.c</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* Private includes ----------------------------------------------------------*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE BEGIN Includes */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdarg.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdbool.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/* USER CODE END Includes */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Private function prototypes -----------------------------------------------*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">SystemClock_Config</span>(<span style="color:#66d9ef">void</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE BEGIN PFP */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">qprint</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">qprint</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">256</span>];
+</span></span><span style="display:flex;"><span>  va_list args;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">va_start</span>(args, fmt);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">vsnprintf</span>(buffer, <span style="color:#66d9ef">sizeof</span>(buffer), fmt, args);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">va_end</span>(args);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#a6e22e">strlen</span>(buffer);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">HAL_UART_Transmit</span>(<span style="color:#f92672">&amp;</span>huart2, (<span style="color:#66d9ef">uint8_t</span><span style="color:#f92672">*</span>)buffer, len, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE END PFP */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Private user code ---------------------------------------------------------*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE BEGIN 0 */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Globals /////////////////////////////////////////////////////////////////////
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>FATFS fatfs;
+</span></span><span style="display:flex;"><span>FRESULT fres;
+</span></span><span style="display:flex;"><span>FIL fil;
+</span></span><span style="display:flex;"><span>UINT bytesRead;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// For 44.1kHz stereo, one frame is 2 samples (left + right channel)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define SAMPLES_PER_FRAME 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define SAMPLE_RATE 44100
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define BUFFER_TIME_MS 20  </span><span style="color:#75715e">// 20ms buffer is a good compromise
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Calculate buffer size based on sample rate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define AUDIO_BUFFER_SIZE ((SAMPLE_RATE * BUFFER_TIME_MS * SAMPLES_PER_FRAME) / 1000)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define HALF_BUFFER_SIZE (AUDIO_BUFFER_SIZE/2)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int16_t</span> samples[AUDIO_BUFFER_SIZE];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> fread_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> recording_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> played_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">bool</span> isHalfBufferDone <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">bool</span> isFullBufferDone <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Callbacks ///////////////////////////////////////////////////////////////////
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">HAL_I2S_TxHalfCpltCallback</span>(I2S_HandleTypeDef <span style="color:#f92672">*</span>hi2s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	isHalfBufferDone <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">HAL_I2S_TxCpltCallback</span>(I2S_HandleTypeDef <span style="color:#f92672">*</span>hi2s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	isFullBufferDone <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    played_size <span style="color:#f92672">+=</span> AUDIO_BUFFER_SIZE;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Main ////////////////////////////////////////////////////////////////////////
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Abstraction Layer and System Clock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">HAL_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SystemClock_Config</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Peripheral Init
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">MX_GPIO_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MX_USART2_UART_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MX_DMA_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MX_FATFS_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MX_SPI2_Init</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">MX_I2S1_Init</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Delay for SD Card
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">HAL_Delay</span>(<span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Open the file system
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fres <span style="color:#f92672">=</span> <span style="color:#a6e22e">f_mount</span>(<span style="color:#f92672">&amp;</span>fatfs, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fres <span style="color:#f92672">!=</span> FR_OK) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">qprint</span>(<span style="color:#e6db74">&#34;f_mount error (%i)</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, fres);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Open the Song
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fres <span style="color:#f92672">=</span> <span style="color:#a6e22e">f_open</span>(<span style="color:#f92672">&amp;</span>fil, <span style="color:#e6db74">&#34;test.wav&#34;</span>, FA_READ);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Get song header data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">uint8_t</span> header[<span style="color:#ae81ff">44</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f_read</span>(<span style="color:#f92672">&amp;</span>fil, header, <span style="color:#ae81ff">44</span>, <span style="color:#f92672">&amp;</span>bytesRead);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">qprint</span>(<span style="color:#e6db74">&#34;Sample Rate: %d</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>(<span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">*</span>)(header <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">qprint</span>(<span style="color:#e6db74">&#34;Bits Per Sample: %d</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>(<span style="color:#66d9ef">uint16_t</span><span style="color:#f92672">*</span>)(header <span style="color:#f92672">+</span> <span style="color:#ae81ff">34</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">qprint</span>(<span style="color:#e6db74">&#34;Channels: %d</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>(<span style="color:#66d9ef">uint16_t</span><span style="color:#f92672">*</span>)(header <span style="color:#f92672">+</span> <span style="color:#ae81ff">22</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Get Song Size
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">f_lseek</span>(<span style="color:#f92672">&amp;</span>fil, <span style="color:#ae81ff">40</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f_read</span>(<span style="color:#f92672">&amp;</span>fil, <span style="color:#f92672">&amp;</span>recording_size, <span style="color:#ae81ff">4</span>, <span style="color:#f92672">&amp;</span>bytesRead);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">qprint</span>(<span style="color:#e6db74">&#34;Recording Size: %d</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, recording_size);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Play the Song
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">f_read</span>(<span style="color:#f92672">&amp;</span>fil, samples, AUDIO_BUFFER_SIZE <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">uint16_t</span>), <span style="color:#f92672">&amp;</span>bytesRead);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">HAL_I2S_Transmit_DMA</span>(<span style="color:#f92672">&amp;</span>hi2s1, (<span style="color:#66d9ef">uint16_t</span> <span style="color:#f92672">*</span>)samples, AUDIO_BUFFER_SIZE);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (isHalfBufferDone) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">f_read</span>(<span style="color:#f92672">&amp;</span>fil, samples, HALF_BUFFER_SIZE <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">uint16_t</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&amp;</span>bytesRead);
+</span></span><span style="display:flex;"><span>            isHalfBufferDone <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (isFullBufferDone) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">f_read</span>(<span style="color:#f92672">&amp;</span>fil, <span style="color:#f92672">&amp;</span>samples[HALF_BUFFER_SIZE],
+</span></span><span style="display:flex;"><span>                HALF_BUFFER_SIZE <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">uint16_t</span>), <span style="color:#f92672">&amp;</span>bytesRead);
+</span></span><span style="display:flex;"><span>            isFullBufferDone <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (played_size <span style="color:#f92672">&gt;=</span> recording_size) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">HAL_I2S_DMAStop</span>(<span style="color:#f92672">&amp;</span>hi2s1);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Unmount the FS
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">f_mount</span>(NULL, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* USER CODE END 0 */</span>
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+    </body></html>

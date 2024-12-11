@@ -66,7 +66,7 @@ int sum = (*pFun)( 3, 2 );
 // The dereference is optional!
 ```
 ---
-## Function Pointer Argument 
+## Function Pointer Argument
 ### Syntax
 ```c
 // Exact same as for definitions

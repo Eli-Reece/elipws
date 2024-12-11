@@ -8,7 +8,7 @@ tocBorder = true
 # In Progress
 
 ## Level 0
-The goal of this level is for you to log into the game using SSH. The host to which you need to connect is **bandit.labs.overthewire.org**, on port 2220. The username is **bandit0** and the password is **bandit0**. 
+The goal of this level is for you to log into the game using SSH. The host to which you need to connect is **bandit.labs.overthewire.org**, on port 2220. The username is **bandit0** and the password is **bandit0**.
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit0
@@ -20,11 +20,11 @@ ssh bandit.labs.overthewire.org -p 2220 -l bandit0
 * PASSWORDS for each level are stored in /etc/somegame_pass/.
 
 Write-access to homedirectories is disabled. It is advised to create a
-working directory with a hard-to-guess name in /tmp/.  
+working directory with a hard-to-guess name in /tmp/.
 
-You can use the command "mktemp -d" in order to generate a random and hard to guess directory in /tmp/. 
+You can use the command "mktemp -d" in order to generate a random and hard to guess directory in /tmp/.
 ```
-## Level 0 -> 1
+## Level 0->1
 The password for the next level is stored in a file called **readme** located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.
 ```bash
 bandit0@bandit:~$ ls
@@ -447,7 +447,7 @@ bandit1@bandit.labs.overthewire.org's password: 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
 ```
 ## Level 15->16
 The password for the next level can be retrieved by submitting the password of the current level to **port 30001 on localhost** using SSL/TLS encryption.
-> Probably could have done this cleaner but i was too lazy to read 
+> Probably could have done this cleaner but i was too lazy to read
 ```bash
 bandit15@bandit:~$ openssl s_client -crlf -connect localhost:30001
 CONNECTED(00000003)
@@ -601,7 +601,7 @@ The credentials for the next level can be retrieved by submitting the password o
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit
-bandit1@bandit.labs.overthewire.org's password: 
+bandit1@bandit.labs.overthewire.org's password:
 ```
 ## Level 17->18
 
@@ -610,7 +610,7 @@ bandit1@bandit.labs.overthewire.org's password:
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit
-bandit1@bandit.labs.overthewire.org's password: 
+bandit1@bandit.labs.overthewire.org's password:
 ```
 ## Level 18->19
 
@@ -619,7 +619,7 @@ bandit1@bandit.labs.overthewire.org's password:
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit
-bandit1@bandit.labs.overthewire.org's password: 
+bandit1@bandit.labs.overthewire.org's password:
 ```
 ## Level 19->20
 
@@ -628,7 +628,7 @@ bandit1@bandit.labs.overthewire.org's password:
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit
-bandit1@bandit.labs.overthewire.org's password: 
+bandit1@bandit.labs.overthewire.org's password:
 ```
 ## Level 20->21
 
@@ -637,5 +637,5 @@ bandit1@bandit.labs.overthewire.org's password:
 
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit
-bandit1@bandit.labs.overthewire.org's password: 
+bandit1@bandit.labs.overthewire.org's password:
 ```

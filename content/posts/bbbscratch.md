@@ -21,7 +21,7 @@ tocBorder = true
 	Floating point: (hardware (FPU))
 	Use specific FPU (neon)
 	[ ] gdb
-	Version of linux (5.15.118)	
+	Version of linux (5.15.118)
 ❯ ct-ng build
 // toolchain should be @ ~/x-tools/arm-cortex_a8-linux-gnueabihf
 ```

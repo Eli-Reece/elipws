@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=39115&amp;path=livereload" data-no-instant defer></script>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=43439&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,10 +13,10 @@ Further Info on Login
 * PASSWORDS for each level are stored in /etc/somegame_pass/.
 
 Write-access to homedirectories is disabled. It is advised to create a
-working directory with a hard-to-guess name in /tmp/.  
+working directory with a hard-to-guess name in /tmp/.
 
-You can use the command &#34;mktemp -d&#34; in order to generate a random and hard to guess directory in /tmp/. 
-Level 0 -&gt; 1
+You can use the command &#34;mktemp -d&#34; in order to generate a random and hard to guess directory in /tmp/.
+Level 0-&gt;1
 The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.">  
 
   <title>
@@ -58,7 +58,7 @@ The password for the next level is stored in a file called readme located in the
         <li><a href="#further-info-on-login">Further Info on Login</a></li>
       </ul>
     </li>
-    <li><a href="#level-0---1">Level 0 -&gt; 1</a></li>
+    <li><a href="#level-0-1">Level 0-&gt;1</a></li>
     <li><a href="#level-1-2">Level 1-&gt;2</a></li>
     <li><a href="#level-2-3">Level 2-&gt;3</a></li>
     <li><a href="#level-3-4">Level 3-&gt;4</a></li>
@@ -94,10 +94,10 @@ The password for the next level is stored in a file called readme located in the
 </span></span><span style="display:flex;"><span>* PASSWORDS <span style="color:#66d9ef">for</span> each level are stored in /etc/somegame_pass/.
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Write-access to homedirectories is disabled. It is advised to create a
-</span></span><span style="display:flex;"><span>working directory with a hard-to-guess name in /tmp/.  
+</span></span><span style="display:flex;"><span>working directory with a hard-to-guess name in /tmp/.
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>You can use the command <span style="color:#e6db74">&#34;mktemp -d&#34;</span> in order to generate a random and hard to guess directory in /tmp/. 
-</span></span></code></pre></div><h2 id="level-0---1">Level 0 -&gt; 1</h2>
+</span></span><span style="display:flex;"><span>You can use the command <span style="color:#e6db74">&#34;mktemp -d&#34;</span> in order to generate a random and hard to guess directory in /tmp/.
+</span></span></code></pre></div><h2 id="level-0-1">Level 0-&gt;1</h2>
 <p>The password for the next level is stored in a file called <strong>readme</strong> located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit0@bandit:~$ ls
 </span></span><span style="display:flex;"><span>readme
@@ -585,19 +585,19 @@ The password for the next level is stored in a file called readme located in the
 </span></span></code></pre></div><h2 id="level-16-17">Level 16-&gt;17</h2>
 <p>The credentials for the next level can be retrieved by submitting the password of the current level to <strong>a port on localhost in the range 31000 to 32000</strong>. First find out which of these ports have a server listening on them. Then find out which of those speak SSL/TLS and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
-</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
 </span></span></code></pre></div><h2 id="level-17-18">Level 17-&gt;18</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
-</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
 </span></span></code></pre></div><h2 id="level-18-19">Level 18-&gt;19</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
-</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
 </span></span></code></pre></div><h2 id="level-19-20">Level 19-&gt;20</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
-</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
 </span></span></code></pre></div><h2 id="level-20-21">Level 20-&gt;21</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
-</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
 </span></span></code></pre></div>
 </article>
 

@@ -51,7 +51,7 @@ make menuconfig
 - SSP support & SSP strong support: y
 - C++ support: y
 ### System Configuration
-- set the hostname 
+- set the hostname
 - set the system banner
 - enabled root login with password and run a getty after boot
 ### (Optional) Modify the busybox config
@@ -74,7 +74,7 @@ index 6249023eae..d3e3e1e1a9 100644
 @@ -4,7 +4,7 @@
  #
  ################################################################################
- 
+
 -LIBFFI_VERSION = 3.4.4
 +LIBFFI_VERSION = 3.4.6
  LIBFFI_SITE = \
