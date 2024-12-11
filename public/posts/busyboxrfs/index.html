@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="
+Using the toolchain I built previously in the BeagleBone Black from Scratch
+
+Clone Buildroot
+git clone https://gitlab.com/buildroot.org/buildroot.git
+git checkout -b 2024.02
+ncurses fix for menuconfig
+
+its not the exact file/location but you can infer
+
+diff --git a/tools/kconfig/lxdialog/check-lxdialog.sh b/tools/kconfig/lxdialog/check-lxdialog.sh
+index e9daa627..6408baae 100755
+--- a/tools/kconfig/lxdialog/check-lxdialog.sh
+&#43;&#43;&#43; b/tools/kconfig/lxdialog/check-lxdialog.sh
+@@ -63,7 &#43;63,7 @@ trap &#34;rm -f $tmp ${tmp%.tmp}.d&#34; 0 1 2 3 15
+ check() {
+         $cc -x c - -o $tmp 2&gt;/dev/null &lt;&lt;&#39;EOF&#39;
+ #include CURSES_LOC
+-main() {}
+&#43;int main() {}
+ EOF
+ 	if [ $? != 0 ]; then
+ 	    echo &#34; *** Unable to find the ncurses libraries or the&#34;       1&gt;&amp;2
+Menuconfig
+make menuconfig
+Target Options
+
+Target Architecture: Arm (little endian)
+Target Architecture Variant: cortex-A8
+Target ABI: EABIhf
+Floating Point Strategy: NEON
+ARM instruction set: ARM
+Target Binary Format: ELF
+
+Toolchain
+
+Toolchain type: External
+Toolchain: Custom toolchain
+Toolchain origin: Pre-installed toolchain
+Toolchain path: ../../x-tools/arm-cortex_a8-linux-gnueabihf
+External toolchain gcc version: 13.x
+External kernel headers series: 5.15.x
+SSP support &amp; SSP strong support: y
+C&#43;&#43; support: y
+
+System Configuration
+
+set the hostname
+set the system banner
+enabled root login with password and run a getty after boot
+
+(Optional) Modify the busybox config
+
+If you want to make more specific changes to the RFS. You&rsquo;ll probably have to do the same ncurses fix if you&rsquo;re on Arch">  
+
+  <title>
+    
+      Beaglebone BusyBox RFS
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-06-08 21:00:34 -0800 -0800">
+                            2024-06-08
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Beaglebone BusyBox RFS</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#clone-buildroot">Clone Buildroot</a></li>
+    <li><a href="#ncurses-fix-for-menuconfig">ncurses fix for menuconfig</a></li>
+    <li><a href="#menuconfig">Menuconfig</a>
+      <ul>
+        <li><a href="#target-options">Target Options</a></li>
+        <li><a href="#toolchain">Toolchain</a></li>
+        <li><a href="#system-configuration">System Configuration</a></li>
+        <li><a href="#optional-modify-the-busybox-config">(Optional) Modify the busybox config</a></li>
+      </ul>
+    </li>
+    <li><a href="#build">Build</a>
+      <ul>
+        <li><a href="#libffi-work-around">libffi work around</a></li>
+      </ul>
+    </li>
+    <li><a href="#format-the-sd-card-bruh">Format the sd card bruh</a>
+      <ul>
+        <li><a href="#remove-the-sd-card-and-plug-it-back-in">Remove the sd card and plug it back in</a></li>
+      </ul>
+    </li>
+    <li><a href="#create-extlinuxconf">Create extlinux.conf</a></li>
+    <li><a href="#boot">Boot</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <blockquote>
+<p>Using the toolchain I built previously in the <code>BeagleBone Black from Scratch</code></p>
+</blockquote>
+<h2 id="clone-buildroot">Clone Buildroot</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://gitlab.com/buildroot.org/buildroot.git
+</span></span><span style="display:flex;"><span>git checkout -b 2024.02
+</span></span></code></pre></div><h2 id="ncurses-fix-for-menuconfig">ncurses fix for menuconfig</h2>
+<blockquote>
+<p>its not the exact file/location but you can infer</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/tools/kconfig/lxdialog/check-lxdialog.sh b/tools/kconfig/lxdialog/check-lxdialog.sh
+</span></span><span style="display:flex;"><span>index e9daa627..6408baae 100755
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/tools/kconfig/lxdialog/check-lxdialog.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/tools/kconfig/lxdialog/check-lxdialog.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -63,7 +63,7 @@ trap &#34;rm -f $tmp ${tmp%.tmp}.d&#34; 0 1 2 3 15
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> check() {
+</span></span><span style="display:flex;"><span>         $cc -x c - -o $tmp 2&gt;/dev/null &lt;&lt;&#39;EOF&#39;
+</span></span><span style="display:flex;"><span> #include CURSES_LOC
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-main() {}
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+int main() {}
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span> EOF
+</span></span><span style="display:flex;"><span> 	if [ $? != 0 ]; then
+</span></span><span style="display:flex;"><span> 	    echo &#34; *** Unable to find the ncurses libraries or the&#34;       1&gt;&amp;2
+</span></span></code></pre></div><h2 id="menuconfig">Menuconfig</h2>
+<pre tabindex="0"><code>make menuconfig
+</code></pre><h3 id="target-options">Target Options</h3>
+<ul>
+<li>Target Architecture: Arm (little endian)</li>
+<li>Target Architecture Variant: cortex-A8</li>
+<li>Target ABI: EABIhf</li>
+<li>Floating Point Strategy: NEON</li>
+<li>ARM instruction set: ARM</li>
+<li>Target Binary Format: ELF</li>
+</ul>
+<h3 id="toolchain">Toolchain</h3>
+<ul>
+<li>Toolchain type: External</li>
+<li>Toolchain: Custom toolchain</li>
+<li>Toolchain origin: Pre-installed toolchain</li>
+<li>Toolchain path: ../../x-tools/arm-cortex_a8-linux-gnueabihf</li>
+<li>External toolchain gcc version: 13.x</li>
+<li>External kernel headers series: 5.15.x</li>
+<li>SSP support &amp; SSP strong support: y</li>
+<li>C++ support: y</li>
+</ul>
+<h3 id="system-configuration">System Configuration</h3>
+<ul>
+<li>set the hostname</li>
+<li>set the system banner</li>
+<li>enabled root login with password and run a getty after boot</li>
+</ul>
+<h3 id="optional-modify-the-busybox-config">(Optional) Modify the busybox config</h3>
+<blockquote>
+<p>If you want to make more specific changes to the RFS. You&rsquo;ll probably have to do the same ncurses fix if you&rsquo;re on Arch</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make busybox-menuconfig
+</span></span></code></pre></div><h2 id="build">Build</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make
+</span></span></code></pre></div><h3 id="libffi-work-around">libffi work around</h3>
+<blockquote>
+<p>I had an issue building libffi 3.4.2 due to my gcc version being too high. Just updated its config with a new a newer package.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/package/libffi/libffi.mk b/package/libffi/libffi.mk
+</span></span><span style="display:flex;"><span>index 6249023eae..d3e3e1e1a9 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/package/libffi/libffi.mk
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/package/libffi/libffi.mk
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -4,7 +4,7 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> #
+</span></span><span style="display:flex;"><span> ################################################################################
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-LIBFFI_VERSION = 3.4.4
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+LIBFFI_VERSION = 3.4.6
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span> LIBFFI_SITE = \
+</span></span><span style="display:flex;"><span> 	https://github.com/libffi/libffi/releases/download/v$(LIBFFI_VERSION)
+</span></span><span style="display:flex;"><span> LIBFFI_LICENSE = MIT
+</span></span><span style="display:flex;"><span>diff --git a/package/libffi/libffi.hash b/package/libffi/libffi.hash
+</span></span><span style="display:flex;"><span>index 8d2349ec21..a4326eb9cc 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/package/libffi/libffi.hash
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/package/libffi/libffi.hash
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -1,4 +1,5 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> # Locally calculated
+</span></span><span style="display:flex;"><span> sha256  d66c56ad259a82cf2a9dfc408b32bf5da52371500b84745f7fb8b645712df676  libffi-3.4.4.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">+sha256  b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e  libffi-3.4.6.tar.gz
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span> # License files, locally calculated
+</span></span><span style="display:flex;"><span> sha256  2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388  LICENSE
+</span></span></code></pre></div><h2 id="format-the-sd-card-bruh">Format the sd card bruh</h2>
+<blockquote>
+<p>sdb is my sdcard</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cfdisk /dev/sdb
+</span></span><span style="display:flex;"><span>sdb1 <span style="color:#f92672">(</span>boot<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>- 128M, FAT32, bootable flag
+</span></span><span style="display:flex;"><span>sdb2 <span style="color:#f92672">(</span>rfs<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>- Rest of the storage space, Linux <span style="color:#f92672">(</span>ext4<span style="color:#f92672">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkfs.vfat -a -F <span style="color:#ae81ff">32</span> -n boot /dev/sdb1
+</span></span><span style="display:flex;"><span>sudo mkfs.ext4 -L rootfs -E nodiscard /dev/sdb2
+</span></span></code></pre></div><blockquote>
+<p>&ldquo;-E nodiscard disables bad block discarding. While this should be a useful option for cards with bad blocks, skipping this step saves long minutes in SD cards&rdquo; - nerds at bootlin</p>
+</blockquote>
+<h3 id="remove-the-sd-card-and-plug-it-back-in">Remove the sd card and plug it back in</h3>
+<blockquote>
+<p>the <code>rootfs.tar</code> is located at busybox/output/images</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /mnt/boot
+</span></span><span style="display:flex;"><span>sudo mkdir -p /mnt/rootfs
+</span></span><span style="display:flex;"><span>sudo mount /dev/sdb1 /mnt/boot
+</span></span><span style="display:flex;"><span>sudo mount /dev/sdb2 /mnt/rootfs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cp MLO am335x-boneblack.dtb u-boot.img zImage /mnt/boot
+</span></span><span style="display:flex;"><span>sudo tar -C /mnt/rootfs -xf rootfs.tar
+</span></span></code></pre></div><h2 id="create-extlinuxconf">Create extlinux.conf</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /mnt/boot/extlinux
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>EDITOR<span style="color:#e6db74">}</span> /mnt/boot/extlinux/extlinux.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>label buildroot
+</span></span><span style="display:flex;"><span>	kernel /zImage
+</span></span><span style="display:flex;"><span>	devicetree /am335x-boneblack-wireless.dtb
+</span></span><span style="display:flex;"><span>	append console<span style="color:#f92672">=</span>ttyO0,115200 root<span style="color:#f92672">=</span>/dev/mmcblk0p2 rootwait
+</span></span></code></pre></div><h2 id="boot">Boot</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ifconfig eth0 up
+</span></span><span style="display:flex;"><span>ifconfig eth0 192.168.1.101
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#host</span>
+</span></span><span style="display:flex;"><span>sudo ip addr add 192.168.1.100/24 dev eno1
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+    </body></html>

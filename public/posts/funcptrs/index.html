@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=45579&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Overview
+A function pointer is a variable that stores the address of a function that can be called later through that function pointer
+Use cases
+
+callback functions
+
+functions that are passed as arguments to other functions
+
+
+dynamic dispatch
+state machines
+
+function pointers are used to transfer between states
+
+
+dynamic plug-in mechanisms
+
+allows an application to dynamically use different plug-ins or modules at runtime
+
+
+ISRs
+some others
+
+
+Function Pointer
+Syntax
+ret_type (*funcptr_name)( funcargs_datatypes ) = actualfunc_name
+Usage Example 1
+int add( int a, int b )
+{
+	return a&#43;b;
+}
+int sub( int a, int b )
+{toc = true
+tocBorder = true
+	return a-b;
+}
+
+int main()
+{
+	int (*pFun)( int, int ) = add;
+	int sum = pFun( 5, 3 );
+
+	pFun = sub;
+	int diff = pFun( 5, 3 );
+
+	fprintf( stdout, &#34;sum:%d, diff:%d\n&#34;, sum, diff );
+}
+Usage Example 2
+void* (*foo)( int* );
+
+Function pointer foo returns a void pointer and takes an integer pointer argument
+
+A Different Complicated Syntax Example
+
+From Example 1
+
+int (*pFun)( int, int ) = add;
+// or
+int (*pFun)( int, int );
+pFun = &amp;add;
+// The ampersand is optional!
+
+int sum = pFun( 3, 2 );
+// or
+int sum = (*pFun)( 3, 2 );
+// The dereference is optional!
+
+Function Pointer Argument
+Syntax
+// Exact same as for definitions
+void function( ..., ret_type (*funcname)( funcargs_datatypes ), ... ){...}
+// Where funcname only exists in the context of the function
+Example
+void bubble_sort( void *array[], size_t length, int(*compare)( void*, void* ) ){...}
+Usage Syntax
+function( ..., func_name , )
+Usage Example
+void bubble_sort( void* array[], size_t length, int (*compare)( const void*, const void* ) ){...}
+
+// Will cast to char
+int strcmp_nocase( const void* first, const void* second ){...}
+
+int main()
+{
+	char* strings[] = { &#34;Hello&#34;, &#34;Goodbye&#34; };
+	bubble_sort( strings, 2, strcmp_nocase )
+}
+
+Typedef
+Definition Syntax
+typedef ret_type (*funcptr_name_t)( funcargs_datatypes );
+Function Arg Syntax
+function( ..., funcptr_name_t funcname )
+// Where funcname only exists in the context of the function
+Function Use Syntax
+function( ..., (funcptr_name_t)nameofactualfunc, ... )
+Example
+typedef int (*comp_t)( const void*, const void* );
+void bubble_sort( void *array[], size_t length, comp_t compare ){...}
+int strcmp_nocase( const void* first, const void* second ){...}
+int main()
+{
+	char* strings[] = { &#34;Hello&#34;, &#34;Goodbye&#34; };
+
+	comp_t example = strcmp_nocase;
+	bubble_sort( strings, 2, example )
+	// or
+	bubble_sort( strings, 2, (comp_t)strcmp_nocase )
+}
+
+LUT Implementation
+#define ERROR -1
+int add( int a, int b) { return a&#43;b; }
+int sub( int a, int b) { return a-b; }
+int mul( int a, int b) { return a*b; }
+
+typedef enum ops { ADD, SUB, MUL } opt_t;
+typedef int (*arithfc_t)( int, int );
+
+int calc( opt_t operation, int x, int y )
+{
+	static const arithfc_t ops[] = { add, sub, mul };
+	if ( operation &gt; MUL || operation &lt; ADD ) return ERROR;
+	return ops[operation]( x, y );
+}
+
+int main()
+{
+	fprintf( stdout, &#34;sum:%d\n&#34;, calc( ADD, 5, 3) );
+}
+
+State Machine Implementation
+void stateA( void );
+void stateB( void );
+
+typedef int (*statefc_t)( void );
+
+statefc_t state = state_A;
+
+void state_A()
+{
+	// do something
+	state = state_B;
+}
+
+void state_B()
+{
+	// do something
+	state = state_A;
+}
+
+int main()
+{
+	for(int i = 0; i &lt; 5; i&#43;&#43; ) { state(); }
+}
+References
+
+https://www.cprogramming.com/tutorial/function-pointers.html
+">  
+
+  <title>
+    
+      C: Function Pointers
+    
+  </title>
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.fe7bb35a1dbc8b0a3755061e911beb3895045b4e3d39fc1b46a3e0f881eb86a938995a67ee28439a5b08905d5f67beed9a24179ece9386c306a965a8e06e7146.css" integrity="sha512-/nuzWh28iwo3VQYekRvrOJUEW049OfwbRqPg&#43;IHrhqk4mVpn7ihDmlsIkF1fZ77tmiQXns6ThsMGqWWo4G5xRg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-08-05 17:36:35 -0800 -0800">
+                            2024-08-05
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>C: Function Pointers</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#use-cases">Use cases</a></li>
+    <li><a href="#function-pointer">Function Pointer</a>
+      <ul>
+        <li><a href="#syntax">Syntax</a></li>
+        <li><a href="#usage-example-1">Usage Example 1</a></li>
+        <li><a href="#usage-example-2">Usage Example 2</a></li>
+        <li><a href="#a-different-complicated-syntax-example">A Different Complicated Syntax Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#function-pointer-argument">Function Pointer Argument</a>
+      <ul>
+        <li><a href="#syntax-1">Syntax</a></li>
+        <li><a href="#example">Example</a></li>
+        <li><a href="#usage-syntax">Usage Syntax</a></li>
+        <li><a href="#usage-example">Usage Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#typedef">Typedef</a>
+      <ul>
+        <li><a href="#definition-syntax">Definition Syntax</a></li>
+        <li><a href="#function-arg-syntax">Function Arg Syntax</a></li>
+        <li><a href="#function-use-syntax">Function Use Syntax</a></li>
+        <li><a href="#example-1">Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#lut-implementation">LUT Implementation</a></li>
+    <li><a href="#state-machine-implementation">State Machine Implementation</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="overview">Overview</h2>
+<p>A function pointer is a variable that stores the address of a function that can be called later through that function pointer</p>
+<h2 id="use-cases">Use cases</h2>
+<ul>
+<li>callback functions
+<ul>
+<li>functions that are passed as arguments to other functions</li>
+</ul>
+</li>
+<li>dynamic dispatch</li>
+<li>state machines
+<ul>
+<li>function pointers are used to transfer between states</li>
+</ul>
+</li>
+<li>dynamic plug-in mechanisms
+<ul>
+<li>allows an application to dynamically use different plug-ins or modules at runtime</li>
+</ul>
+</li>
+<li>ISRs</li>
+<li>some others</li>
+</ul>
+<hr>
+<h2 id="function-pointer">Function Pointer</h2>
+<h3 id="syntax">Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">ret_type</span> (<span style="color:#f92672">*</span>funcptr_name)( funcargs_datatypes ) <span style="color:#f92672">=</span> actualfunc_name
+</span></span></code></pre></div><h3 id="usage-example-1">Usage Example 1</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>( <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a<span style="color:#f92672">+</span>b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sub</span>( <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b )
+</span></span><span style="display:flex;"><span>{toc <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span>tocBorder <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a<span style="color:#f92672">-</span>b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>pFun)( <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span> ) <span style="color:#f92672">=</span> add;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#a6e22e">pFun</span>( <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	pFun <span style="color:#f92672">=</span> sub;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> diff <span style="color:#f92672">=</span> <span style="color:#a6e22e">pFun</span>( <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fprintf</span>( stdout, <span style="color:#e6db74">&#34;sum:%d, diff:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, sum, diff );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="usage-example-2">Usage Example 2</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> (<span style="color:#f92672">*</span>foo)( <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> );
+</span></span></code></pre></div><ul>
+<li>Function pointer <code>foo</code> returns a void pointer and takes an integer pointer argument</li>
+</ul>
+<h3 id="a-different-complicated-syntax-example">A Different Complicated Syntax Example</h3>
+<ul>
+<li>From Example 1</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>pFun)( <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span> ) <span style="color:#f92672">=</span> add;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>pFun)( <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span> );
+</span></span><span style="display:flex;"><span>pFun <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>add;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The ampersand is optional!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#a6e22e">pFun</span>( <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span> );
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>pFun)( <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span> );
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The dereference is optional!
+</span></span></span></code></pre></div><hr>
+<h2 id="function-pointer-argument">Function Pointer Argument</h2>
+<h3 id="syntax-1">Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// Exact same as for definitions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">function</span>( ..., <span style="color:#a6e22e">ret_type</span> (<span style="color:#f92672">*</span>funcname)( funcargs_datatypes ), ... ){...}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Where funcname only exists in the context of the function
+</span></span></span></code></pre></div><h3 id="example">Example</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bubble_sort</span>( <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>array[], <span style="color:#66d9ef">size_t</span> length, <span style="color:#66d9ef">int</span>(<span style="color:#f92672">*</span>compare)( <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>, <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> ) ){...}
+</span></span></code></pre></div><h3 id="usage-syntax">Usage Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">function</span>( ..., func_name , )
+</span></span></code></pre></div><h3 id="usage-example">Usage Example</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bubble_sort</span>( <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> array[], <span style="color:#66d9ef">size_t</span> length, <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>compare)( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> ) ){...}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Will cast to char
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">strcmp_nocase</span>( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> first, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> second ){...}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> strings[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34;Goodbye&#34;</span> };
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">bubble_sort</span>( strings, <span style="color:#ae81ff">2</span>, strcmp_nocase )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="typedef">Typedef</h2>
+<h3 id="definition-syntax">Definition Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">ret_type</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">funcptr_name_t</span>)( funcargs_datatypes );
+</span></span></code></pre></div><h3 id="function-arg-syntax">Function Arg Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">function</span>( ..., <span style="color:#66d9ef">funcptr_name_t</span> funcname )
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Where funcname only exists in the context of the function
+</span></span></span></code></pre></div><h3 id="function-use-syntax">Function Use Syntax</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">function</span>( ..., (<span style="color:#66d9ef">funcptr_name_t</span>)nameofactualfunc, ... )
+</span></span></code></pre></div><h3 id="example-1">Example</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">comp_t</span>)( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> );
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bubble_sort</span>( <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>array[], <span style="color:#66d9ef">size_t</span> length, <span style="color:#66d9ef">comp_t</span> compare ){...}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">strcmp_nocase</span>( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> first, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> second ){...}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> strings[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34;Goodbye&#34;</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">comp_t</span> example <span style="color:#f92672">=</span> strcmp_nocase;
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">bubble_sort</span>( strings, <span style="color:#ae81ff">2</span>, example )
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">bubble_sort</span>( strings, <span style="color:#ae81ff">2</span>, (<span style="color:#66d9ef">comp_t</span>)strcmp_nocase )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="lut-implementation">LUT Implementation</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#define ERROR -1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>( <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> a<span style="color:#f92672">+</span>b; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sub</span>( <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> a<span style="color:#f92672">-</span>b; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mul</span>( <span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> a<span style="color:#f92672">*</span>b; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">enum</span> ops { ADD, SUB, MUL } <span style="color:#66d9ef">opt_t</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">arithfc_t</span>)( <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">calc</span>( <span style="color:#66d9ef">opt_t</span> operation, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">arithfc_t</span> ops[] <span style="color:#f92672">=</span> { add, sub, mul };
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> ( operation <span style="color:#f92672">&gt;</span> MUL <span style="color:#f92672">||</span> operation <span style="color:#f92672">&lt;</span> ADD ) <span style="color:#66d9ef">return</span> ERROR;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> ops[operation]( x, y );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fprintf</span>( stdout, <span style="color:#e6db74">&#34;sum:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">calc</span>( ADD, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>) );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="state-machine-implementation">State Machine Implementation</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stateA</span>( <span style="color:#66d9ef">void</span> );
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stateB</span>( <span style="color:#66d9ef">void</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">statefc_t</span>)( <span style="color:#66d9ef">void</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">statefc_t</span> state <span style="color:#f92672">=</span> state_A;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">state_A</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	state <span style="color:#f92672">=</span> state_B;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">state_B</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	state <span style="color:#f92672">=</span> state_A;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span> ) { <span style="color:#a6e22e">state</span>(); }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.cprogramming.com/tutorial/function-pointers.html">https://www.cprogramming.com/tutorial/function-pointers.html</a></li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

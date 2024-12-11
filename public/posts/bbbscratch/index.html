@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="My System Info
+
+6.11.6-arch1-1
+
+Install your cross-compiler
+❯ yay -S crosstool-ng
+// crosstool-ng-1.26.0-1
+Build your cross-compiler
+
+I was unable to compile gdb due to a missing the libgmp package so I just removed it since I wasn&rsquo;t gonna use it anyways
+
+❯ cd &lt;whereever u want to build&gt; // this dir will have build log, etc
+❯ ct-ng arm-cortex_a8-linux-gnueabi
+❯ ct-ng menuconfig
+	[ ] render the toolchain read-only
+	Floating point: (hardware (FPU))
+	Use specific FPU (neon)
+	[ ] gdb
+	Version of linux (5.15.118)	
+❯ ct-ng build
+// toolchain should be @ ~/x-tools/arm-cortex_a8-linux-gnueabihf
+(Optional) Setup easy env
+// in your .bashrc or .zshrc (me)
+bbb_set() {
+	export PATH=~/x-tools/arm-cortex_a8-linux-gnueabihf/bin:$PATH
+    export CROSS_COMPILE=arm-cortex_a8-linux-gnueabihf-
+    export CC=arm-cortex_a8-linux-gnueabihf-
+    export ARCH=arm
+    echo &#34;BBB cross-compile environment activated&#34;
+}
+
+bbb_unset() {
+    PATH=$(echo $PATH | sed &#39;s|~/x-tools/arm-cortex_a8-linux-gnueabi/bin:||&#39;)
+    unset CROSS_COMPILE
+    unset CC
+    unset ARCH
+}
+(Optional) Test your new toolchain
+// after adding to path and setting up variable(s)
+❯ ${CC}gcc --version
+arm-cortex_a8-linux-gnueabihf-gcc (crosstool-NG 1.26.0) 13.2.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+// hello world in test.c
+❯ ${CC}gcc test.c -o test
+
+// if u rlly, rlly want proof
+❯ ${CC}readelf -a test
+Build U-Boot
+❯ git clone git://git.denx.de/u-boot.git
+❯ cd u-boot
+❯ git checkout v2021.01
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC} distclean
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC} am335x_evm_defconfig
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC}
+// Setup a images dir at the root of your proj for ez access
+❯ cp MLO u-boot.img ../images
+Build the Kernel
+❯ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.118.tar.gz
+❯ tar -xvf linux-5.15.118.tar.gz
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC} distclean
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC} omap2plus_defconfig
+❯ make ARCH=${ARCH} CROSS_COMPILE=${CC}
+❯ cp /arch/arm/boot/zImage ~/&lt;proj&gt;/images
+❯ cp /arch/arm/boot/dts/am335x-boneblack.dtb ~/&lt;proj&gt;/images
+Build the RFS
+
+TODO: Add
+
+RFS ncurses fix for menuconfig
+
+from: https://aur.archlinux.org/packages/esp8266-rtos-sdk
+
+
+The file location for me is: scripts/kconfig/lxdialog/check-lxdialog.sh">  
+
+  <title>
+    
+      BeagleBone Black from Scratch
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-06-07 20:56:30 -0800 -0800">
+                            2024-06-07
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>BeagleBone Black from Scratch</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#my-system-info">My System Info</a></li>
+    <li><a href="#install-your-cross-compiler">Install your cross-compiler</a></li>
+    <li><a href="#build-your-cross-compiler">Build your cross-compiler</a></li>
+    <li><a href="#optional-setup-easy-env">(Optional) Setup easy env</a></li>
+    <li><a href="#optional-test-your-new-toolchain">(Optional) Test your new toolchain</a></li>
+    <li><a href="#build-u-boot">Build U-Boot</a></li>
+    <li><a href="#build-the-kernel">Build the Kernel</a></li>
+    <li><a href="#build-the-rfs">Build the RFS</a>
+      <ul>
+        <li><a href="#rfs-ncurses-fix-for-menuconfig">RFS ncurses fix for menuconfig</a></li>
+      </ul>
+    </li>
+    <li><a href="#format-sd-card">Format SD card</a>
+      <ul>
+        <li><a href="#u-boot-arguments">U-boot arguments</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="my-system-info">My System Info</h2>
+<ul>
+<li>6.11.6-arch1-1</li>
+</ul>
+<h2 id="install-your-cross-compiler">Install your cross-compiler</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ yay -S crosstool-ng
+</span></span><span style="display:flex;"><span>// crosstool-ng-1.26.0-1
+</span></span></code></pre></div><h2 id="build-your-cross-compiler">Build your cross-compiler</h2>
+<blockquote>
+<p>I was unable to compile gdb due to a missing the libgmp package so I just removed it since I wasn&rsquo;t gonna use it anyways</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ cd &lt;whereever u want to build&gt; // this dir will have build log, etc
+</span></span><span style="display:flex;"><span>❯ ct-ng arm-cortex_a8-linux-gnueabi
+</span></span><span style="display:flex;"><span>❯ ct-ng menuconfig
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">[</span> <span style="color:#f92672">]</span> render the toolchain read-only
+</span></span><span style="display:flex;"><span>	Floating point: <span style="color:#f92672">(</span>hardware <span style="color:#f92672">(</span>FPU<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>	Use specific FPU <span style="color:#f92672">(</span>neon<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">[</span> <span style="color:#f92672">]</span> gdb
+</span></span><span style="display:flex;"><span>	Version of linux <span style="color:#f92672">(</span>5.15.118<span style="color:#f92672">)</span>	
+</span></span><span style="display:flex;"><span>❯ ct-ng build
+</span></span><span style="display:flex;"><span>// toolchain should be @ ~/x-tools/arm-cortex_a8-linux-gnueabihf
+</span></span></code></pre></div><h2 id="optional-setup-easy-env">(Optional) Setup easy env</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// in your .bashrc or .zshrc <span style="color:#f92672">(</span>me<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>bbb_set<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	export PATH<span style="color:#f92672">=</span>~/x-tools/arm-cortex_a8-linux-gnueabihf/bin:$PATH
+</span></span><span style="display:flex;"><span>    export CROSS_COMPILE<span style="color:#f92672">=</span>arm-cortex_a8-linux-gnueabihf-
+</span></span><span style="display:flex;"><span>    export CC<span style="color:#f92672">=</span>arm-cortex_a8-linux-gnueabihf-
+</span></span><span style="display:flex;"><span>    export ARCH<span style="color:#f92672">=</span>arm
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;BBB cross-compile environment activated&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bbb_unset<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    PATH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $PATH | sed <span style="color:#e6db74">&#39;s|~/x-tools/arm-cortex_a8-linux-gnueabi/bin:||&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    unset CROSS_COMPILE
+</span></span><span style="display:flex;"><span>    unset CC
+</span></span><span style="display:flex;"><span>    unset ARCH
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="optional-test-your-new-toolchain">(Optional) Test your new toolchain</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// after adding to path and setting up variable<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>❯ <span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span>gcc --version
+</span></span><span style="display:flex;"><span>arm-cortex_a8-linux-gnueabihf-gcc <span style="color:#f92672">(</span>crosstool-NG 1.26.0<span style="color:#f92672">)</span> 13.2.0
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span> <span style="color:#ae81ff">2023</span> Free Software Foundation, Inc.
+</span></span><span style="display:flex;"><span>This is free software; see the source <span style="color:#66d9ef">for</span> copying conditions.  There is NO
+</span></span><span style="display:flex;"><span>warranty; not even <span style="color:#66d9ef">for</span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// hello world in test.c
+</span></span><span style="display:flex;"><span>❯ <span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span>gcc test.c -o test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// <span style="color:#66d9ef">if</span> u rlly, rlly want proof
+</span></span><span style="display:flex;"><span>❯ <span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span>readelf -a test
+</span></span></code></pre></div><h2 id="build-u-boot">Build U-Boot</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ git clone git://git.denx.de/u-boot.git
+</span></span><span style="display:flex;"><span>❯ cd u-boot
+</span></span><span style="display:flex;"><span>❯ git checkout v2021.01
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span> distclean
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span> am335x_evm_defconfig
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>// Setup a images dir at the root of your proj <span style="color:#66d9ef">for</span> ez access
+</span></span><span style="display:flex;"><span>❯ cp MLO u-boot.img ../images
+</span></span></code></pre></div><h2 id="build-the-kernel">Build the Kernel</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.118.tar.gz
+</span></span><span style="display:flex;"><span>❯ tar -xvf linux-5.15.118.tar.gz
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span> distclean
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span> omap2plus_defconfig
+</span></span><span style="display:flex;"><span>❯ make ARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ARCH<span style="color:#e6db74">}</span> CROSS_COMPILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CC<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>❯ cp /arch/arm/boot/zImage ~/&lt;proj&gt;/images
+</span></span><span style="display:flex;"><span>❯ cp /arch/arm/boot/dts/am335x-boneblack.dtb ~/&lt;proj&gt;/images
+</span></span></code></pre></div><h2 id="build-the-rfs">Build the RFS</h2>
+<ul>
+<li>TODO: Add</li>
+</ul>
+<h3 id="rfs-ncurses-fix-for-menuconfig">RFS ncurses fix for menuconfig</h3>
+<ul>
+<li>from: <a href="https://aur.archlinux.org/packages/esp8266-rtos-sdk">https://aur.archlinux.org/packages/esp8266-rtos-sdk</a></li>
+</ul>
+<blockquote>
+<p>The file location for me is: <code>scripts/kconfig/lxdialog/check-lxdialog.sh</code></p>
+</blockquote>
+<pre tabindex="0"><code>diff --git a/tools/kconfig/lxdialog/check-lxdialog.sh b/tools/kconfig/lxdialog/check-lxdialog.sh
+index e9daa627..6408baae 100755
+--- a/tools/kconfig/lxdialog/check-lxdialog.sh
++++ b/tools/kconfig/lxdialog/check-lxdialog.sh
+@@ -63,7 +63,7 @@ trap &#34;rm -f $tmp ${tmp%.tmp}.d&#34; 0 1 2 3 15
+ check() {
+         $cc -x c - -o $tmp 2&gt;/dev/null &lt;&lt;&#39;EOF&#39;
+ #include CURSES_LOC
+-main() {}
++int main() {}
+ EOF
+ 	if [ $? != 0 ]; then
+ 	    echo &#34; *** Unable to find the ncurses libraries or the&#34;       1&gt;&amp;2
+</code></pre><h2 id="format-sd-card">Format SD card</h2>
+<ul>
+<li>TODO: Add</li>
+</ul>
+<h3 id="u-boot-arguments">U-boot arguments</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>setenv bootargs console<span style="color:#f92672">=</span>ttyO0,115200 root<span style="color:#f92672">=</span>/dev/mmcblk0p2 rw rootwait
+</span></span><span style="display:flex;"><span>setenv bootcmd <span style="color:#e6db74">&#39;fatload mmc 0:1 0x80200000 zImage; fatload mmc 0:1 0x80F00000 am335x-boneblack.dtb; bootz 0x80200000 - 0x80F00000&#39;</span>
+</span></span><span style="display:flex;"><span>saveenv
+</span></span><span style="display:flex;"><span>boot
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uboot.env
+</span></span><span style="display:flex;"><span>bootargs<span style="color:#f92672">=</span>console<span style="color:#f92672">=</span>ttyO0,115200n8 root<span style="color:#f92672">=</span>/dev/mmcblk0p2 rw rootwait
+</span></span><span style="display:flex;"><span>uenvcmd<span style="color:#f92672">=</span>fatload mmc 0:1 0x80200000 zImage; fatload mmc 0:1 0x80f00000 am335x-boneblack.dtb; fatload mmc 0:1 0x82000000 initramfs.cpio.gz; bootz 0x80200000 0x82000000 0x80f00000
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+    </body></html>

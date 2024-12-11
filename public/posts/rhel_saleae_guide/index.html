@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Install snapd and enable it
+# Prerequitiste / May not apply to you ######################################
+sudo dnf install [https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm](https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm)
+sudo dnf upgrade
+sudo subscription-manager repos --enable &#34;rhel-*-optional-rpms&#34; --enable &#34;rhel-*-extras-rpms&#34;
+sudo yum update
+#############################################################################
+sudo yum install snapd
+sudo systemctl enable --now snapd.socket
+Give snapd access to the raw-usb interface
+sudo snap connect sigrok-suite:raw-usb
+sudo systemctl restart snapd
+Install Sigrok
+sudo snap install sigrok-suite --beta
+Update udev rules
+sudo bash
+cd /etc/udev/rules.d/
+wget -O 60-libsigrok.rules &#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/60-libsigrok.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/60-libsigrok.rules)&#34;
+wget -O 61-libsigrok-uaccess.rules &#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-uaccess.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-uaccess.rules)&#34;
+wget -O 61-libsigrok-plugdev.rules &#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-plugdev.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-plugdev.rules)&#34;
+sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger
+Download the .elf  parse tool and fwextract tool
+
+Requires python3">  
+
+  <title>
+    
+      RHEL Saleae Guide
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-06-12 17:16:17 -0800 -0800">
+                            2024-06-12
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>RHEL Saleae Guide</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#install-snapd-and-enable-it">Install <code>snapd</code> and enable it</a></li>
+    <li><a href="#give-snapd-access-to-the-raw-usb-interface">Give <code>snapd</code> access to the <code>raw-usb</code> interface</a></li>
+    <li><a href="#install-sigrok">Install <code>Sigrok</code></a></li>
+    <li><a href="#update-udev-rules">Update <code>udev</code> rules</a></li>
+    <li><a href="#download-the-elf--parse-tool-and-fwextract-tool">Download the <code>.elf</code>  parse tool and <code>fwextract</code> tool</a></li>
+    <li><a href="#download-logic">Download <code>Logic</code></a></li>
+    <li><a href="#extract-the-fx3-firmware-and-fpga-bitstreams">Extract the FX3 firmware and FPGA bitstreams</a>
+      <ul>
+        <li><a href="#run-pulseview">Run <code>PulseView</code></a></li>
+        <li><a href="#current-caveats">Current Caveats</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="install-snapd-and-enable-it">Install <code>snapd</code> and enable it</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Prerequitiste / May not apply to you ######################################</span>
+</span></span><span style="display:flex;"><span>sudo dnf install <span style="color:#f92672">[</span>https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm<span style="color:#f92672">](</span>https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>sudo dnf upgrade
+</span></span><span style="display:flex;"><span>sudo subscription-manager repos --enable <span style="color:#e6db74">&#34;rhel-*-optional-rpms&#34;</span> --enable <span style="color:#e6db74">&#34;rhel-*-extras-rpms&#34;</span>
+</span></span><span style="display:flex;"><span>sudo yum update
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#############################################################################</span>
+</span></span><span style="display:flex;"><span>sudo yum install snapd
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now snapd.socket
+</span></span></code></pre></div><h2 id="give-snapd-access-to-the-raw-usb-interface">Give <code>snapd</code> access to the <code>raw-usb</code> interface</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo snap connect sigrok-suite:raw-usb
+</span></span><span style="display:flex;"><span>sudo systemctl restart snapd
+</span></span></code></pre></div><h2 id="install-sigrok">Install <code>Sigrok</code></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo snap install sigrok-suite --beta
+</span></span></code></pre></div><h2 id="update-udev-rules">Update <code>udev</code> rules</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo bash
+</span></span><span style="display:flex;"><span>cd /etc/udev/rules.d/
+</span></span><span style="display:flex;"><span>wget -O 60-libsigrok.rules <span style="color:#e6db74">&#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/60-libsigrok.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/60-libsigrok.rules)&#34;</span>
+</span></span><span style="display:flex;"><span>wget -O 61-libsigrok-uaccess.rules <span style="color:#e6db74">&#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-uaccess.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-uaccess.rules)&#34;</span>
+</span></span><span style="display:flex;"><span>wget -O 61-libsigrok-plugdev.rules <span style="color:#e6db74">&#34;[https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-plugdev.rules](https://sigrok.org/gitweb/?p=libsigrok.git;a=blob_plain;f=contrib/61-libsigrok-plugdev.rules)&#34;</span>
+</span></span><span style="display:flex;"><span>sudo udevadm control --reload-rules <span style="color:#f92672">&amp;&amp;</span> sudo udevadm trigger
+</span></span></code></pre></div><h2 id="download-the-elf--parse-tool-and-fwextract-tool">Download the <code>.elf</code>  parse tool and <code>fwextract</code> tool</h2>
+<blockquote>
+<p>Requires python3</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /tmp/saleaeextract
+</span></span><span style="display:flex;"><span>cd /tmp/saleaeextract
+</span></span><span style="display:flex;"><span>wget -O parseelf.py <span style="color:#e6db74">&#34;[http://sigrok.org/gitweb/?p=sigrok-util.git;a=blob;f=firmware/saleae-logic16/parseelf.py](http://sigrok.org/gitweb/?p=sigrok-util.git;a=blob;f=firmware/saleae-logic16/parseelf.py)&#34;</span>
+</span></span><span style="display:flex;"><span>wget -O sigrok-fwextract-saleae-logic16 <span style="color:#e6db74">&#34;[http://sigrok.org/gitweb/?p=sigrok-util.git;a=blob;f=firmware/saleae-logic16/sigrok-fwextract-saleae-logic16](http://sigrok.org/gitweb/?p=sigrok-util.git;a=blob;f=firmware/saleae-logic16/sigrok-fwextract-saleae-logic16)&#34;</span>
+</span></span></code></pre></div><blockquote>
+<p>You may need to chmod +x <code>sigrok-fwextract-saleae-logic16</code></p>
+</blockquote>
+<h2 id="download-logic">Download <code>Logic</code></h2>
+<blockquote>
+<p><a href="https://downloads.saleae.com/logic/1.2.10/Logic%201.2.10%20(64-bit).zip">https://downloads.saleae.com/logic/1.2.10/Logic%201.2.10%20(64-bit).zip</a>
+Place the Logic binary into <code>/tmp/saleaeextract</code></p>
+</blockquote>
+<h2 id="extract-the-fx3-firmware-and-fpga-bitstreams">Extract the FX3 firmware and FPGA bitstreams</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./sigrok-fwextract-saleae-logic16 Logic
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">5217</span> bytes to saleae-logic16-fx2.fw
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">149516</span> bytes to saleae-logic16-fpga-18.bitstream
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">149516</span> bytes to saleae-logic16-fpga-33.bitstream
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">178702</span> bytes from <span style="color:#ae81ff">46</span> blobs to saleae-logicpro16-fx3.fw
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">178702</span> bytes from <span style="color:#ae81ff">46</span> blobs to saleae-logicpro8-fx3.fw
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">465028</span> bytes to saleae-logicpro16-fpga.bitstream
+</span></span><span style="display:flex;"><span>saved <span style="color:#ae81ff">341160</span> bytes to saleae-logicpro8-fpga.bitstream
+</span></span></code></pre></div><blockquote>
+<p>Move the output files into a directory find-able by <code>Sigrok</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /home/$USER/snap/sigrok-suite/45/sigrok-firmware
+</span></span><span style="display:flex;"><span>cp * /home/$USER/snap/sigrok-suite/45/sigrok-firmware
+</span></span></code></pre></div><blockquote>
+<p>There are other directories you can put this in but I chose this one because its find-able by a non-sudo snapd program</p>
+</blockquote>
+<h3 id="run-pulseview">Run <code>PulseView</code></h3>
+<ol>
+<li>Plug in your Saleae</li>
+<li>Run using GUI/DE or run PulseView from CLI</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>env BAMF_DESKTOP_FILE_HINT<span style="color:#f92672">=</span>/var/lib/snapd/desktop/applications/sigrok-suite_pulseview.desktop /var/lib/snapd/snap/bin/sigrok-suite.pulseview --loglevel <span style="color:#ae81ff">5</span>
+</span></span></code></pre></div><h4 id="theres-probably-a-much-better-way-to-run-from-cli"><em>There&rsquo;s probably a much better way to run from CLI</em></h4>
+<blockquote>
+<p>Added <code>loglevel</code> for debugging to see errors</p>
+</blockquote>
+<h3 id="current-caveats">Current Caveats</h3>
+<ul>
+<li>I&rsquo;m unable to run in the same session more than once. It results in a segmentation fault for every subsequent run that can only (Didn&rsquo;t debug it very much) be fixed by restarting the computer
+    - this might just be for my computer</li>
+<li>Does not seem to work with XRDP, likely due to user environment being different on remote log in and not playing nice with snapd.
+    - I might look into it but seems like a rabbit hole</li>
+</ul>
+<h2 id="references">References</h2>
+<p><a href="https://sigrok.org/wiki/Saleae_Logic_Pro_16">https://sigrok.org/wiki/Saleae_Logic_Pro_16</a>
+<a href="https://snapcraft.io/docs/raw-usb-interface">https://snapcraft.io/docs/raw-usb-interface</a>
+<a href="https://gist.github.com/rikka0w0/9d134cfd9e68ea772995d876a3363797">https://gist.github.com/rikka0w0/9d134cfd9e68ea772995d876a3363797</a>
+[https://cameronpavey.me/articles/setting-up-sigrok-pulseview-on-ubuntu](<a href="https://cameronpavey.me/articles/setting-up-sigrok-pulseview-on-ubuntu">https://cameronpavey.me/articles/setting-up-sigrok-pulseview-on-ubuntu</a></p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

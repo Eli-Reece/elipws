@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Checkout
+
+svn checkout creates a working copy in directory
+
+svn checkout http://svn.repo.local.com/repo/blahblah
+svn co http://svn.repo.local.com/repo/blahblah
+Update
+
+Update repositories using svn update
+
+svn update
+svn up
+Branching / Tagging
+
+branch using svn copy
+
+svn copy http://svn.repo.local.com/repo/src/trunk http://svn.repo.local.com/repo/src/branches/&lt;branch-name&gt; -m &#34;&lt;Branch Message&gt;&#34;
+
+svn cp http://svn.repo.local.com/repo/src/trunk http://svn.repo.local.com/repo/src/branches/&lt;branch-name&gt; -m &#34;&lt;Branch Message&gt;&#34;
+Adding
+
+Use svn add \&lt;filepath&gt; to add files to version control
+
+svn add &lt;filepath&gt;
+Deleting
+
+Use &lsquo;svn delete &lt;filepath&gt;&rsquo; to remove files from version control and local file system
+
+svn delete &lt;filepath&gt;
+svn rm &lt;filepath&gt;
+Status
+
+Check current status of working copy files using svn status
+
+svn status &lt;opt filepath&gt;
+svn stat
+svn st
+
+
+? item:
+The file, directory, or symbolic link item is not under version control.">  
+
+  <title>
+    
+      SVN
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-08-04 17:36:46 -0800 -0800">
+                            2024-08-04
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>SVN</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#checkout">Checkout</a></li>
+    <li><a href="#update">Update</a></li>
+    <li><a href="#branching--tagging">Branching / Tagging</a></li>
+    <li><a href="#adding">Adding</a></li>
+    <li><a href="#deleting">Deleting</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#diff">Diff</a></li>
+    <li><a href="#revert">Revert</a></li>
+    <li><a href="#committing">Committing</a></li>
+    <li><a href="#externsproperties">Externs/Properties</a>
+      <ul>
+        <li><a href="#extern-example">Extern example</a></li>
+      </ul>
+    </li>
+    <li><a href="#locking">Locking</a></li>
+    <li><a href="#helpful-aliases">Helpful Aliases</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="checkout">Checkout</h2>
+<ul>
+<li><code>svn checkout</code> creates a working copy in directory</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn checkout http://svn.repo.local.com/repo/blahblah
+</span></span><span style="display:flex;"><span>svn co http://svn.repo.local.com/repo/blahblah
+</span></span></code></pre></div><h2 id="update">Update</h2>
+<ul>
+<li>Update repositories using <code>svn update</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn update
+</span></span><span style="display:flex;"><span>svn up
+</span></span></code></pre></div><h2 id="branching--tagging">Branching / Tagging</h2>
+<ul>
+<li>branch using <code>svn copy</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn copy http://svn.repo.local.com/repo/src/trunk http://svn.repo.local.com/repo/src/branches/&lt;branch-name&gt; -m <span style="color:#e6db74">&#34;&lt;Branch Message&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>svn cp http://svn.repo.local.com/repo/src/trunk http://svn.repo.local.com/repo/src/branches/&lt;branch-name&gt; -m <span style="color:#e6db74">&#34;&lt;Branch Message&gt;&#34;</span>
+</span></span></code></pre></div><h2 id="adding">Adding</h2>
+<ul>
+<li>Use <code>svn add \&lt;filepath&gt;</code> to add files to version control</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn add &lt;filepath&gt;
+</span></span></code></pre></div><h2 id="deleting">Deleting</h2>
+<ul>
+<li>Use &lsquo;svn delete &lt;filepath&gt;&rsquo; to remove files from version control and local file system</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn delete &lt;filepath&gt;
+</span></span><span style="display:flex;"><span>svn rm &lt;filepath&gt;
+</span></span></code></pre></div><h2 id="status">Status</h2>
+<ul>
+<li>Check current status of working copy files using <code>svn status</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn status &lt;opt filepath&gt;
+</span></span><span style="display:flex;"><span>svn stat
+</span></span><span style="display:flex;"><span>svn st
+</span></span></code></pre></div><ul>
+<li>
+<p>? item:
+The file, directory, or symbolic link item is not under version control.</p>
+</li>
+<li>
+<p>A item:
+The file, directory, or symbolic link item has been scheduled for addition into the repository.</p>
+</li>
+<li>
+<p>C item:
+The file item is in a state of conflict. That is, changes received from the server during an update overlap with local changes that you have in your working copy (and weren&rsquo;t resolved during the update). You must resolve this conflict before committing your changes to the repository.</p>
+</li>
+<li>
+<p>D item:
+The file, directory, or symbolic link item has been scheduled for deletion from the repository.</p>
+</li>
+<li>
+<p>M item:
+The contents of the file item have been modified.</p>
+</li>
+</ul>
+<h2 id="diff">Diff</h2>
+<ul>
+<li><code>svn diff</code> will display differences in file content</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn diff
+</span></span><span style="display:flex;"><span>svn di
+</span></span></code></pre></div><h2 id="revert">Revert</h2>
+<ul>
+<li>Use <code>svn revert</code> to undo any scheduled operation (svn status)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn add file.txt
+</span></span><span style="display:flex;"><span>svn revert file.txt
+</span></span></code></pre></div><h2 id="committing">Committing</h2>
+<ul>
+<li><code>svn commit</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn commit -m <span style="color:#e6db74">&#34;commit message&#34;</span>
+</span></span><span style="display:flex;"><span>svn commit -F &lt;logfile&gt;
+</span></span></code></pre></div><h2 id="externsproperties">Externs/Properties</h2>
+<ul>
+<li>Use <code>svn proplist</code> to list that names of properties that exist on that path</li>
+<li>You can use <code>svn propedit</code> to edit those properties in your editor</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>admin@demo repo<span style="color:#f92672">]</span>$ svn pl
+</span></span><span style="display:flex;"><span>Properties on <span style="color:#e6db74">&#39;.&#39;</span>:
+</span></span><span style="display:flex;"><span>  svn:externals
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>admin@demo repo<span style="color:#f92672">]</span>$ svn pe svn:externals --editor-cmd micro .
+</span></span><span style="display:flex;"><span>No changes to property <span style="color:#e6db74">&#39;svn:externals&#39;</span> on <span style="color:#e6db74">&#39;.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>admin@demo repo<span style="color:#f92672">]</span>$
+</span></span></code></pre></div><h3 id="extern-example">Extern example</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>^/software/modules/driver/i2c/trunk@400 i2c
+</span></span><span style="display:flex;"><span>^/software/modules/driver/can/branches/can3@1505 can
+</span></span></code></pre></div><ul>
+<li>@&lt;rev&gt; for an optional pegging</li>
+<li>After editing properties you can use <code>svn up</code> to see changes
+<ul>
+<li>May need to delete the previous extern&rsquo;d dir to see changes</li>
+</ul>
+</li>
+</ul>
+<h2 id="locking">Locking</h2>
+<ul>
+<li>Use <code>svn lock</code> to place a lock on a file for exclusive editing rights.</li>
+<li>Lock comments are optional but should be done</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>svn lock file.txt -m <span style="color:#e6db74">&#34;Editing share file&#34;</span>
+</span></span></code></pre></div><ul>
+<li>After committing the changes the lock token/lock will be released from the working copy</li>
+<li><code>svn status -u</code> and <code>svn info</code> can provide more context on locks made</li>
+</ul>
+<h2 id="helpful-aliases">Helpful Aliases</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>alias svnst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn st&#39;</span>
+</span></span><span style="display:flex;"><span>alias svnup<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn up&#39;</span>
+</span></span><span style="display:flex;"><span>alias svnco<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn co&#39;</span>
+</span></span><span style="display:flex;"><span>alias svnlog<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn log&#39;</span>
+</span></span><span style="display:flex;"><span>alias svninfo<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn info&#39;</span>
+</span></span><span style="display:flex;"><span>alias svnpe<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn pe svn:externals --editor-cmd micro .&#39;</span>
+</span></span><span style="display:flex;"><span>alias svndiff<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;svn diff -r PREV:HEAD | less&#39;</span>
+</span></span></code></pre></div><h1 id="references">References</h1>
+<ul>
+<li><a href="https://svnbook.red-bean.com/">https://svnbook.red-bean.com/</a></li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

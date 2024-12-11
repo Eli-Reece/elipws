@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="In Progress
+Level 0
+The goal of this level is for you to log into the game using SSH. The host to which you need to connect is bandit.labs.overthewire.org, on port 2220. The username is bandit0 and the password is bandit0.
+ssh bandit.labs.overthewire.org -p 2220 -l bandit0
+Further Info on Login
+* USERNAMES are somegame0, somegame1, ...
+* Most LEVELS are stored in /somegame/.
+* PASSWORDS for each level are stored in /etc/somegame_pass/.
+
+Write-access to homedirectories is disabled. It is advised to create a
+working directory with a hard-to-guess name in /tmp/.  
+
+You can use the command &#34;mktemp -d&#34; in order to generate a random and hard to guess directory in /tmp/. 
+Level 0 -&gt; 1
+The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.">  
+
+  <title>
+    
+      Over The Wire Bandit (In Progress)
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-05-10 21:15:10 -0800 -0800">
+                            2024-05-10
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Over The Wire Bandit (In Progress)</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#level-0">Level 0</a>
+      <ul>
+        <li><a href="#further-info-on-login">Further Info on Login</a></li>
+      </ul>
+    </li>
+    <li><a href="#level-0---1">Level 0 -&gt; 1</a></li>
+    <li><a href="#level-1-2">Level 1-&gt;2</a></li>
+    <li><a href="#level-2-3">Level 2-&gt;3</a></li>
+    <li><a href="#level-3-4">Level 3-&gt;4</a></li>
+    <li><a href="#level-4-5">Level 4-&gt;5</a></li>
+    <li><a href="#level-5-6">Level 5-&gt;6</a></li>
+    <li><a href="#level-6-7">Level 6-&gt;7</a></li>
+    <li><a href="#level-7-8">Level 7-&gt;8</a></li>
+    <li><a href="#level-8-9">Level 8-&gt;9</a></li>
+    <li><a href="#level-9-10">Level 9-&gt;10</a></li>
+    <li><a href="#level-10-11">Level 10-&gt;11</a></li>
+    <li><a href="#level-11-12">Level 11-&gt;12</a></li>
+    <li><a href="#level-12-13">Level 12-&gt;13</a></li>
+    <li><a href="#level-13-14">Level 13-&gt;14</a></li>
+    <li><a href="#level-14-15">Level 14-&gt;15</a></li>
+    <li><a href="#level-15-16">Level 15-&gt;16</a></li>
+    <li><a href="#level-16-17">Level 16-&gt;17</a></li>
+    <li><a href="#level-17-18">Level 17-&gt;18</a></li>
+    <li><a href="#level-18-19">Level 18-&gt;19</a></li>
+    <li><a href="#level-19-20">Level 19-&gt;20</a></li>
+    <li><a href="#level-20-21">Level 20-&gt;21</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h1 id="in-progress">In Progress</h1>
+<h2 id="level-0">Level 0</h2>
+<p>The goal of this level is for you to log into the game using SSH. The host to which you need to connect is <strong>bandit.labs.overthewire.org</strong>, on port 2220. The username is <strong>bandit0</strong> and the password is <strong>bandit0</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit0
+</span></span></code></pre></div><h3 id="further-info-on-login">Further Info on Login</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>* USERNAMES are somegame0, somegame1, ...
+</span></span><span style="display:flex;"><span>* Most LEVELS are stored in /somegame/.
+</span></span><span style="display:flex;"><span>* PASSWORDS <span style="color:#66d9ef">for</span> each level are stored in /etc/somegame_pass/.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Write-access to homedirectories is disabled. It is advised to create a
+</span></span><span style="display:flex;"><span>working directory with a hard-to-guess name in /tmp/.  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>You can use the command <span style="color:#e6db74">&#34;mktemp -d&#34;</span> in order to generate a random and hard to guess directory in /tmp/. 
+</span></span></code></pre></div><h2 id="level-0---1">Level 0 -&gt; 1</h2>
+<p>The password for the next level is stored in a file called <strong>readme</strong> located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit0@bandit:~$ ls
+</span></span><span style="display:flex;"><span>readme
+</span></span><span style="display:flex;"><span>bandit0@bandit:~$ cat readme
+</span></span><span style="display:flex;"><span>Congratulations on your first steps into the bandit game!!
+</span></span><span style="display:flex;"><span>Please make sure you have read the rules at https://overthewire.org/rules/
+</span></span><span style="display:flex;"><span>If you are following a course, workshop, walkthrough or other educational activity,
+</span></span><span style="display:flex;"><span>please inform the instructor about the rules as well and encourage them to
+</span></span><span style="display:flex;"><span>contribute to the OverTheWire community so we can keep these games free!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The password you are looking <span style="color:#66d9ef">for</span> is: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit1
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+</span></span></code></pre></div><h2 id="level-1-2">Level 1-&gt;2</h2>
+<p>The password for the next level is stored in a file called <strong>-</strong> located in the home directory</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit1@bandit:~$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>-rw-r-----  <span style="color:#ae81ff">1</span> bandit2 bandit1   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -
+</span></span><span style="display:flex;"><span>drwxr-xr-x  <span style="color:#ae81ff">2</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">70</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:09 ..
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root     <span style="color:#ae81ff">220</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bash_logout
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root    <span style="color:#ae81ff">3771</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bashrc
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root     <span style="color:#ae81ff">807</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .profile
+</span></span><span style="display:flex;"><span>bandit1@bandit:~$ cat ./-
+</span></span><span style="display:flex;"><span>263JGJPfgU6LtdEvgfWU1XP5yac29mFx
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit2
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
+</span></span></code></pre></div><h2 id="level-2-3">Level 2-&gt;3</h2>
+<p>The password for the next level is stored in a file called <strong>spaces in this filename</strong> located in the home directory</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit2@bandit:~$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x  <span style="color:#ae81ff">2</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">70</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:09 ..
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root     <span style="color:#ae81ff">220</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bash_logout
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root    <span style="color:#ae81ff">3771</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bashrc
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root    root     <span style="color:#ae81ff">807</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .profile
+</span></span><span style="display:flex;"><span>-rw-r-----  <span style="color:#ae81ff">1</span> bandit3 bandit2   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 spaces in this filename
+</span></span><span style="display:flex;"><span>bandit2@bandit:~$ cat spaces<span style="color:#ae81ff">\ </span>in<span style="color:#ae81ff">\ </span>this<span style="color:#ae81ff">\ </span>filename
+</span></span><span style="display:flex;"><span>MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit3
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
+</span></span></code></pre></div><h2 id="level-3-4">Level 3-&gt;4</h2>
+<p>The password for the next level is stored in a hidden file in the <strong>inhere</strong> directory.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit3@bandit:~$ ls
+</span></span><span style="display:flex;"><span>inhere
+</span></span><span style="display:flex;"><span>bandit3@bandit:~$ cd inhere/
+</span></span><span style="display:flex;"><span>bandit3@bandit:~/inhere$ ls
+</span></span><span style="display:flex;"><span>bandit3@bandit:~/inhere$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">2</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">3</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 ..
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit4 bandit3   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 ...Hiding-From-You
+</span></span><span style="display:flex;"><span>bandit3@bandit:~/inhere$ cat ...Hiding-From-You
+</span></span><span style="display:flex;"><span>2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit4
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+</span></span></code></pre></div><h2 id="level-4-5">Level 4-&gt;5</h2>
+<p>The password for the next level is stored in the only human-readable file in the <strong>inhere</strong> directory. Tip: if your terminal is messed up, try the “reset” command</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit4@bandit:~$ cd inhere/
+</span></span><span style="display:flex;"><span>bandit4@bandit:~/inhere$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">48</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">2</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">3</span> root    root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 ..
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file00
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file01
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file02
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file03
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file04
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file05
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file06
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file07
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file08
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit5 bandit4   <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">19</span> 07:08 -file09
+</span></span><span style="display:flex;"><span>bandit4@bandit:~/inhere$ find . -type f -exec sh -c <span style="color:#e6db74">&#39;echo &#34;\n{}&#34;; cat {}; echo&#39;</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file08
+</span></span><span style="display:flex;"><span>nS
+</span></span><span style="display:flex;"><span>��<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>We˥mO�D
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file02
+</span></span><span style="display:flex;"><span>3��Ʈ#Y-6cIR-��:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file09
+</span></span><span style="display:flex;"><span>2g�?�<span style="color:#e6db74">`</span>&gt;5HYA��8g<span style="color:#e6db74">`</span>0$<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file01
+</span></span><span style="display:flex;"><span>i�,Λ�Y��%A�B��
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file00
+</span></span><span style="display:flex;"><span>p��y,�jo.at:uf^@
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file05
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>���W&gt;�#lk���yE�
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file07
+</span></span><span style="display:flex;"><span>4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file03
+</span></span><span style="display:flex;"><span>�/
+</span></span><span style="display:flex;"><span>  ��qGi�,2Yb�
+</span></span><span style="display:flex;"><span>             d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file06
+</span></span><span style="display:flex;"><span>6�<span style="color:#f92672">]</span>�<span style="color:#ae81ff">\$</span>1%��o@�b/��
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./-file04
+</span></span><span style="display:flex;"><span>rOx��0~ey
+</span></span><span style="display:flex;"><span>�c~���1
+</span></span><span style="display:flex;"><span>bandit4@bandit:~/inhere$
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit5
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
+</span></span></code></pre></div><h2 id="level-5-6">Level 5-&gt;6</h2>
+<p>The password for the next level is stored in a file somewhere under the <strong>inhere</strong> directory and has all of the following properties:</p>
+<ul>
+<li>human-readable</li>
+<li>1033 bytes in size</li>
+<li>not executable</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit5@bandit:~$ ls
+</span></span><span style="display:flex;"><span>inhere
+</span></span><span style="display:flex;"><span>bandit5@bandit:~$ cd inhere/
+</span></span><span style="display:flex;"><span>bandit5@bandit:~/inhere$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">88</span>
+</span></span><span style="display:flex;"><span>drwxr-x--- <span style="color:#ae81ff">22</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x  <span style="color:#ae81ff">3</span> root root    <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 ..
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere00
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere01
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere02
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere03
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere04
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere05
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere06
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere07
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere08
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere09
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere10
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere11
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere12
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere13
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere14
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere15
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere16
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere17
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere18
+</span></span><span style="display:flex;"><span>drwxr-x---  <span style="color:#ae81ff">2</span> root bandit5 <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 maybehere19
+</span></span><span style="display:flex;"><span>bandit5@bandit:~/inhere$ find . -size 1033c
+</span></span><span style="display:flex;"><span>./maybehere07/.file2
+</span></span><span style="display:flex;"><span>bandit5@bandit:~/inhere$ cat maybehere07/.file2
+</span></span><span style="display:flex;"><span>HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit6
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
+</span></span></code></pre></div><h2 id="level-6-7">Level 6-&gt;7</h2>
+<p>The password for the next level is stored <strong>somewhere on the server</strong> and has all of the following properties:</p>
+<ul>
+<li>owned by user bandit7</li>
+<li>owned by group bandit6</li>
+<li>33 bytes in size</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit6@bandit:~$ ls
+</span></span><span style="display:flex;"><span>bandit6@bandit:~$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x  <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:08 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">70</span> root root <span style="color:#ae81ff">4096</span> Sep <span style="color:#ae81ff">19</span> 07:09 ..
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">220</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bash_logout
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">3771</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .bashrc
+</span></span><span style="display:flex;"><span>-rw-r--r--  <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">807</span> Mar <span style="color:#ae81ff">31</span>  <span style="color:#ae81ff">2024</span> .profile
+</span></span><span style="display:flex;"><span>bandit6@bandit:~$ cd /
+</span></span><span style="display:flex;"><span>bandit6@bandit:/$ find . -size 33c -user bandit7 -group bandit6 2&gt;/dev/null
+</span></span><span style="display:flex;"><span>./var/lib/dpkg/info/bandit7.password
+</span></span><span style="display:flex;"><span>bandit6@bandit:/$ cat var/lib/dpkg/info/ba
+</span></span><span style="display:flex;"><span>bandit7.password           base-files.preinst         base-passwd.postrm         bash-completion.postinst   bash.postinst
+</span></span><span style="display:flex;"><span>base-files.conffiles       base-files.prerm           base-passwd.preinst        bash-completion.postrm     bash.postrm
+</span></span><span style="display:flex;"><span>base-files.list            base-files.triggers        base-passwd.templates      bash-completion.preinst    bash.prerm
+</span></span><span style="display:flex;"><span>base-files.md5sums         base-passwd.list           bash-completion.conffiles  bash.conffiles
+</span></span><span style="display:flex;"><span>base-files.postinst        base-passwd.md5sums        bash-completion.list       bash.list
+</span></span><span style="display:flex;"><span>base-files.postrm          base-passwd.postinst       bash-completion.md5sums    bash.md5sums
+</span></span><span style="display:flex;"><span>bandit6@bandit:/$ cat var/lib/dpkg/info/bandit7.password
+</span></span><span style="display:flex;"><span>morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit7
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+</span></span></code></pre></div><h2 id="level-7-8">Level 7-&gt;8</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong> next to the word <strong>millionth</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit7@bandit:~$ grep -nRHi millionth
+</span></span><span style="display:flex;"><span>data.txt:1457:millionth	dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit8
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc
+</span></span></code></pre></div><h2 id="level-8-9">Level 8-&gt;9</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong> and is the only line of text that occurs only once</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit8@bandit:~$ ls
+</span></span><span style="display:flex;"><span>data.txt
+</span></span><span style="display:flex;"><span>bandit8@bandit:~$ sort data.txt | uniq -u
+</span></span><span style="display:flex;"><span>4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit9
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
+</span></span></code></pre></div><h2 id="level-9-10">Level 9-&gt;10</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong> in one of the few human-readable strings, preceded by several ‘=’ characters.</p>
+<blockquote>
+<p>First time, I ran cat on the file can could see the password lol but I added 2 ways to find it</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit9@bandit:~$ grep -nRHi --text <span style="color:#e6db74">&#34;====&#34;</span>
+</span></span><span style="display:flex;"><span>data.txt:7:D<span style="color:#f92672">]</span>�
+</span></span><span style="display:flex;"><span>              �h#!���J�s�Vzl7�POl%Y<span style="color:#f92672">]</span>�a^�vToD�@T�N��8g�b<span style="color:#f92672">}</span>?
+</span></span><span style="display:flex;"><span>Q#g�m1x<span style="color:#f92672">}==========</span> theѦ+�id��<span style="color:#f92672">)</span>F1&gt;<span style="color:#f92672">)</span>٘SK�PZ�t&amp;xs肉WB/2ÜB�	Ź/Bjɢ��&lt;���&lt;���/d|
+</span></span><span style="display:flex;"><span>                                                                          -��
+</span></span><span style="display:flex;"><span>data.txt:29:#i�u<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>                 7֣�<span style="color:#f92672">)</span>�ջش�5bBKK�<span style="color:#f92672">}</span>x&gt;<span style="color:#f92672">}</span>:4Rl_7gH��:274��Fy
+</span></span><span style="display:flex;"><span>�6��&amp;�zB�$l_G�p�qI.X��0�H��Tw�m⧫�3m�0���L�JprD<span style="color:#f92672">==========</span> passwordi	L�~ˏ&lt;@Ȅh$�%Q5�Dk |<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>~��f;�9��P#t+Pe�΢쵟s4:���#U<span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>OqDf�.��zmnf&amp;v�:FX �g�K�b�
+</span></span><span style="display:flex;"><span>                  �I�Bi&gt;�Y
+</span></span><span style="display:flex;"><span>Еk�	$nXT<span style="color:#f92672">=</span>~<span style="color:#f92672">}</span>*4a2?TO<span style="color:#e6db74">&#34;&#39;�&amp;J~fDV3========== isd5z(�#�s!10&amp;p��q�
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">n���F                                                         data.txt:67:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">�éT:k��A�2�cɐ�#g+;YA_ekr�X53|f8+e9�bR+�̊~&amp;Oiu?Vh�M�}^�Qp^�==6�!��T:��ʨ&#34;</span>u���-t<span style="color:#ae81ff">\f</span>g
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">]</span>󈍅<span style="color:#f92672">(</span>.ۍg:7n�np��� ���D<span style="color:#e6db74">`</span>v�SQ�&lt;<span style="color:#f92672">]</span><span style="color:#e6db74">`</span>�@�H Uum�BiA�堵�O���D9<span style="color:#f92672">==========</span> FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>or
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bandit9@bandit:~$ strings data.txt | grep <span style="color:#e6db74">&#34;===&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}==========</span> the
+</span></span><span style="display:flex;"><span>3JprD<span style="color:#f92672">==========</span> passwordi
+</span></span><span style="display:flex;"><span>~fDV3<span style="color:#f92672">==========</span> is
+</span></span><span style="display:flex;"><span>D9<span style="color:#f92672">==========</span> FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit10
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+</span></span></code></pre></div><h2 id="level-10-11">Level 10-&gt;11</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong>, which contains base64 encoded data</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit10@bandit:~$ cat data.txt | base64 -d
+</span></span><span style="display:flex;"><span>The password is dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit11
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
+</span></span></code></pre></div><h2 id="level-11-12">Level 11-&gt;12</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong>, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions</p>
+<p>From Wikipedia (<a href="https://en.wikipedia.org/wiki/ROT13)">https://en.wikipedia.org/wiki/ROT13)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>to encrypt the string <span style="color:#e6db74">&#34;Pack My Box With Five Dozen Liquor Jugs&#34;</span> in ROT13:
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># Map upper case A-Z to N-ZA-M and lower case a-z to n-za-m</span>
+</span></span><span style="display:flex;"><span>$ tr <span style="color:#e6db74">&#39;A-Za-z&#39;</span> <span style="color:#e6db74">&#39;N-ZA-Mn-za-m&#39;</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;Pack My Box With Five Dozen Liquor Jugs&#34;</span>
+</span></span><span style="display:flex;"><span>Cnpx Zl Obk Jvgu Svir Qbmra Yvdhbe Whtf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit11@bandit:~$ cat data.txt
+</span></span><span style="display:flex;"><span>Gur cnffjbeq vf 7k16JArUVv5LxVuJfsSVdbbtaHGlw9D4
+</span></span><span style="display:flex;"><span>bandit11@bandit:~$ cat data.txt | tr <span style="color:#e6db74">&#39;A-Za-z&#39;</span> <span style="color:#e6db74">&#39;N-ZA-Mn-za-m&#39;</span>
+</span></span><span style="display:flex;"><span>The password is 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit12
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
+</span></span></code></pre></div><h2 id="level-12-13">Level 12-&gt;13</h2>
+<p>The password for the next level is stored in the file <strong>data.txt</strong>, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work. Use mkdir with a hard to guess directory name. Or better, use the command “mktemp -d”. Then copy the datafile using cp, and rename it using mv (read the manpages!)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mktemp -d
+</span></span><span style="display:flex;"><span>cd /tmp/tmp.WVILYB5ezd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># convert the hexdump back into binary</span>
+</span></span><span style="display:flex;"><span>andit12@bandit:/tmp/tmp.WVILYB5ezd$ xxd -r data.txt &gt; output.bin
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ file output.bin
+</span></span><span style="display:flex;"><span>output.bin: gzip compressed data, was <span style="color:#e6db74">&#34;data2.bin&#34;</span>, last modified: Thu Sep <span style="color:#ae81ff">19</span> 07:08:15 2024, max compression, from Unix, original size modulo 2^32 <span style="color:#ae81ff">574</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># now it turns into an annoying decompression cycle</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># the main things to understand</span>
+</span></span><span style="display:flex;"><span>- For gzip: <span style="color:#e6db74">`</span>gzip -d file.gz<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>- For bzip2: <span style="color:#e6db74">`</span>bzip2 -d file.bz2<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>- For tar: <span style="color:#e6db74">`</span>tar xf file.tar<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># So you&#39;ll have a binary output that is gzip, bzip2, or tar compressed data</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You need to mv the binary into a file with the matching compression extension</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Decompress the file and continue until you get it down to the file with a password</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># I&#39;ve added the last cycle as example</span>
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ ls
+</span></span><span style="display:flex;"><span>data5.tar  data6.tar  data8.bin  data.txt  output.tar
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ file data8.bin
+</span></span><span style="display:flex;"><span>data8.bin: gzip compressed data, was <span style="color:#e6db74">&#34;data9.bin&#34;</span>, last modified: Thu Sep <span style="color:#ae81ff">19</span> 07:08:15 2024, max compression, from Unix, original size modulo 2^32 <span style="color:#ae81ff">49</span>
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ mv data8.bin data8.gz
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ gzip -d data8.gz
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ ls
+</span></span><span style="display:flex;"><span>data5.tar  data6.tar  data8  data.txt  output.tar
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">13632</span>
+</span></span><span style="display:flex;"><span>drwx------ <span style="color:#ae81ff">2</span> bandit12 bandit12     <span style="color:#ae81ff">4096</span> Nov <span style="color:#ae81ff">23</span> 02:14 .
+</span></span><span style="display:flex;"><span>drwxrwx-wt <span style="color:#ae81ff">1</span> root     root     <span style="color:#ae81ff">13897728</span> Nov <span style="color:#ae81ff">23</span> 02:14 ..
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> bandit12 bandit12    <span style="color:#ae81ff">10240</span> Sep <span style="color:#ae81ff">19</span> 07:08 data5.tar
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> bandit12 bandit12    <span style="color:#ae81ff">10240</span> Sep <span style="color:#ae81ff">19</span> 07:08 data6.tar
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> bandit12 bandit12       <span style="color:#ae81ff">49</span> Sep <span style="color:#ae81ff">19</span> 07:08 data8
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#ae81ff">1</span> bandit12 bandit12     <span style="color:#ae81ff">2583</span> Nov <span style="color:#ae81ff">23</span> 01:58 data.txt
+</span></span><span style="display:flex;"><span>-rw-rw-r-- <span style="color:#ae81ff">1</span> bandit12 bandit12    <span style="color:#ae81ff">20480</span> Nov <span style="color:#ae81ff">23</span> 02:10 output.tar
+</span></span><span style="display:flex;"><span>bandit12@bandit:/tmp/tmp.WVILYB5ezd$ cat data8
+</span></span><span style="display:flex;"><span>The password is FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit13
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+</span></span></code></pre></div><h2 id="level-13-14">Level 13-&gt;14</h2>
+<p>The password for the next level is stored in <strong>/etc/bandit_pass/bandit14 and can only be read by user bandit14</strong>. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. <strong>Note:</strong> <strong>localhost</strong> is a hostname that refers to the machine you are working on</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># From https://help.ubuntu.com/community/SSH/OpenSSH/Keys#Generating_RSA_Keys</span>
+</span></span><span style="display:flex;"><span>To securely communicate using key-based authentication, one needs to create a key pair, securely store the private key on the computer one wants to log in from, and store the public key on the computer one wants to log in to.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bandit13@bandit:~$ ls
+</span></span><span style="display:flex;"><span>sshkey.private
+</span></span><span style="display:flex;"><span>bandit13@bandit:~$ exit
+</span></span><span style="display:flex;"><span>logout
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ scp -P <span style="color:#ae81ff">2220</span> bandit13@bandit.labs.overthewire.org:sshkey.private .
+</span></span><span style="display:flex;"><span>❯ ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit14 -i sshkey.private
+</span></span><span style="display:flex;"><span>                         _                     _ _ _
+</span></span><span style="display:flex;"><span>                        | |__   __ _ _ __   __| <span style="color:#f92672">(</span>_<span style="color:#f92672">)</span> |_
+</span></span><span style="display:flex;"><span>                        | <span style="color:#e6db74">&#39;_ \ / _` | &#39;</span>_ <span style="color:#ae81ff">\ </span>/ _<span style="color:#e6db74">`</span> | | __|
+</span></span><span style="display:flex;"><span>                        | |_<span style="color:#f92672">)</span> | <span style="color:#f92672">(</span>_| | | | | <span style="color:#f92672">(</span>_| | | |_
+</span></span><span style="display:flex;"><span>                        |_.__/ <span style="color:#ae81ff">\_</span>_,_|_| |_|<span style="color:#ae81ff">\_</span>_,_|_|<span style="color:#ae81ff">\_</span>_|
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                      This is an OverTheWire game server.
+</span></span><span style="display:flex;"><span>            More information on http://www.overthewire.org/wargames
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span style="display:flex;"><span>@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+</span></span><span style="display:flex;"><span>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span style="display:flex;"><span>Permissions <span style="color:#ae81ff">0640</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;sshkey.private&#39;</span> are too open.
+</span></span><span style="display:flex;"><span>It is required that your private key files are NOT accessible by others.
+</span></span><span style="display:flex;"><span>This private key will be ignored.
+</span></span><span style="display:flex;"><span>Load key <span style="color:#e6db74">&#34;sshkey.private&#34;</span>: bad permissions
+</span></span><span style="display:flex;"><span>bandit14@bandit.labs.overthewire.orgs password:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Permission denied (publickey)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If you&#39;re sure you&#39;ve correctly configured sshd_config, copied your ID, and have your private key in the .ssh directory, and still getting this error:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Chances are, your /home/&lt;user&gt; or ~/.ssh/authorized_keys permissions are too open by OpenSSH standards. You can get rid of this problem by issuing the following commands:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chmod go-w ~/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chmod 700 ~/.ssh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chmod 600 ~/.ssh/authorized_keys</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ chmod <span style="color:#ae81ff">700</span> sshkey.private
+</span></span><span style="display:flex;"><span>❯ ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit14 -i sshkey.private
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># good to go</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /Projects/CTFs/OTW_bandit/bandit13_14
+</span></span><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit14 -i sshkey.private
+</span></span></code></pre></div><h2 id="level-14-15">Level 14-&gt;15</h2>
+<p>The password for the next level can be retrieved by submitting the password of the current level to <strong>port 30000 on localhost</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># PASSWORDS for each level are stored in /etc/somegame_pass/</span>
+</span></span><span style="display:flex;"><span>bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
+</span></span><span style="display:flex;"><span>MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
+</span></span><span style="display:flex;"><span>bandit14@bandit:~$ echo <span style="color:#e6db74">&#34;MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS&#34;</span> | nc localhost <span style="color:#ae81ff">30000</span>
+</span></span><span style="display:flex;"><span>Correct!
+</span></span><span style="display:flex;"><span>8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit15
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+</span></span></code></pre></div><h2 id="level-15-16">Level 15-&gt;16</h2>
+<p>The password for the next level can be retrieved by submitting the password of the current level to <strong>port 30001 on localhost</strong> using SSL/TLS encryption.</p>
+<blockquote>
+<p>Probably could have done this cleaner but i was too lazy to read</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bandit15@bandit:~$ openssl s_client -crlf -connect localhost:30001
+</span></span><span style="display:flex;"><span>CONNECTED<span style="color:#f92672">(</span>00000003<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Can<span style="color:#960050;background-color:#1e0010">&#39;</span>t use SSL_get_servername
+</span></span><span style="display:flex;"><span>depth<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>verify error:num<span style="color:#f92672">=</span>18:self-signed certificate
+</span></span><span style="display:flex;"><span>verify <span style="color:#66d9ef">return</span>:1
+</span></span><span style="display:flex;"><span>depth<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>verify <span style="color:#66d9ef">return</span>:1
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Certificate chain
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span> s:CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>   i:CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>   a:PKEY: rsaEncryption, <span style="color:#ae81ff">4096</span> <span style="color:#f92672">(</span>bit<span style="color:#f92672">)</span>; sigalg: RSA-SHA256
+</span></span><span style="display:flex;"><span>   v:NotBefore: Jun <span style="color:#ae81ff">10</span> 03:59:50 <span style="color:#ae81ff">2024</span> GMT; NotAfter: Jun  <span style="color:#ae81ff">8</span> 03:59:50 <span style="color:#ae81ff">2034</span> GMT
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Server certificate
+</span></span><span style="display:flex;"><span>-----BEGIN CERTIFICATE-----
+</span></span><span style="display:flex;"><span>MIIFBzCCAu+gAwIBAgIUBLz7DBxA0IfojaL/WaJzE6Sbz7cwDQYJKoZIhvcNAQEL
+</span></span><span style="display:flex;"><span>BQAwEzERMA8GA1UEAwwIU25ha2VPaWwwHhcNMjQwNjEwMDM1OTUwWhcNMzQwNjA4
+</span></span><span style="display:flex;"><span>MDM1OTUwWjATMREwDwYDVQQDDAhTbmFrZU9pbDCCAiIwDQYJKoZIhvcNAQEBBQAD
+</span></span><span style="display:flex;"><span>ggIPADCCAgoCggIBANI+P5QXm9Bj21FIPsQqbqZRb5XmSZZJYaam7EIJ16Fxedf+
+</span></span><span style="display:flex;"><span>jXAv4d/FVqiEM4BuSNsNMeBMx2Gq0lAfN33h+RMTjRoMb8yBsZsC063MLfXCk4p+
+</span></span><span style="display:flex;"><span>09gtGP7BS6Iy5XdmfY/fPHvA3JDEScdlDDmd6Lsbdwhv93Q8M6POVO9sv4HuS4t/
+</span></span><span style="display:flex;"><span>jEjr+NhE+Bjr/wDbyg7GL71BP1WPZpQnRE4OzoSrt5+bZVLvODWUFwinB0fLaGRk
+</span></span><span style="display:flex;"><span>GmI0r5EUOUd7HpYyoIQbiNlePGfPpHRKnmdXTTEZEoxeWWAaM1VhPGqfrB/Pnca+
+</span></span><span style="display:flex;"><span>vAJX7iBOb3kHinmfVOScsG/YAUR94wSELeY+UlEWJaELVUntrJ5HeRDiTChiVQ++
+</span></span><span style="display:flex;"><span>wnnjNbepaW6shopybUF3XXfhIb4NvwLWpvoKFXVtcVjlOujF0snVvpE+MRT0wacy
+</span></span><span style="display:flex;"><span>tHtjZs7Ao7GYxDz6H8AdBLKJW67uQon37a4MI260ADFMS+2vEAbNSFP+f6ii5mrB
+</span></span><span style="display:flex;"><span>18cY64ZaF6oU8bjGK7BArDx56bRc3WFyuBIGWAFHEuB948BcshXY7baf5jjzPmgz
+</span></span><span style="display:flex;"><span>mq1zdRthQB31MOM2ii6vuTkheAvKfFf+llH4M9SnES4NSF2hj9NnHga9V08wfhYc
+</span></span><span style="display:flex;"><span>x0W6qu+S8HUdVF+V23yTvUNgz4Q+UoGs4sHSDEsIBFqNvInnpUmtNgcR2L5PAgMB
+</span></span><span style="display:flex;"><span>AAGjUzBRMB0GA1UdDgQWBBTPo8kfze4P9EgxNuyk7+xDGFtAYzAfBgNVHSMEGDAW
+</span></span><span style="display:flex;"><span>gBTPo8kfze4P9EgxNuyk7+xDGFtAYzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3
+</span></span><span style="display:flex;"><span>DQEBCwUAA4ICAQAKHomtmcGqyiLnhziLe97Mq2+Sul5QgYVwfx/KYOXxv2T8ZmcR
+</span></span><span style="display:flex;"><span>Ae9XFhZT4jsAOUDK1OXx9aZgDGJHJLNEVTe9zWv1ONFfNxEBxQgP7hhmDBWdtj6d
+</span></span><span style="display:flex;"><span>taqEW/Jp06X+08BtnYK9NZsvDg2YRcvOHConeMjwvEL7tQK0m+GVyQfLYg6jnrhx
+</span></span><span style="display:flex;"><span>egH+abucTKxabFcWSE+Vk0uJYMqcbXvB4WNKz9vj4V5Hn7/DN4xIjFko+nREw6Oa
+</span></span><span style="display:flex;"><span>/AUFjNnO/FPjap+d68H1LdzMH3PSs+yjGid+6Zx9FCnt9qZydW13Miqg3nDnODXw
+</span></span><span style="display:flex;"><span>+Z682mQFjVlGPCA5ZOQbyMKY4tNazG2n8qy2famQT3+jF8Lb6a4NGbnpeWnLMkIu
+</span></span><span style="display:flex;"><span>jWLWIkA9MlbdNXuajiPNVyYIK9gdoBzbfaKwoOfSsLxEqlf8rio1GGcEV5Hlz5S2
+</span></span><span style="display:flex;"><span>txwI0xdW9MWeGWoiLbZSbRJH4TIBFFtoBG0LoEJi0C+UPwS8CDngJB4TyrZqEld3
+</span></span><span style="display:flex;"><span>rH87W+Et1t/Nepoc/Eoaux9PFp5VPXP+qwQGmhir/hv7OsgBhrkYuhkjxZ8+1uk7
+</span></span><span style="display:flex;"><span>tUWC/XM0mpLoxsq6vVl3AJaJe1ivdA9xLytsuG4iv02Juc593HXYR8yOpow0Eq2T
+</span></span><span style="display:flex;"><span>U5EyeuFg5RXYwAPi7ykw1PW7zAPL4MlonEVz+QXOSx6eyhimp1VZC11SCg<span style="color:#f92672">==</span>
+</span></span><span style="display:flex;"><span>-----END CERTIFICATE-----
+</span></span><span style="display:flex;"><span>subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>issuer<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> SnakeOil
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>No client certificate CA names sent
+</span></span><span style="display:flex;"><span>Peer signing digest: SHA256
+</span></span><span style="display:flex;"><span>Peer signature type: RSA-PSS
+</span></span><span style="display:flex;"><span>Server Temp Key: X25519, <span style="color:#ae81ff">253</span> bits
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>SSL handshake has read <span style="color:#ae81ff">2103</span> bytes and written <span style="color:#ae81ff">373</span> bytes
+</span></span><span style="display:flex;"><span>Verification error: self-signed certificate
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+</span></span><span style="display:flex;"><span>Server public key is <span style="color:#ae81ff">4096</span> bit
+</span></span><span style="display:flex;"><span>Secure Renegotiation IS NOT supported
+</span></span><span style="display:flex;"><span>Compression: NONE
+</span></span><span style="display:flex;"><span>Expansion: NONE
+</span></span><span style="display:flex;"><span>No ALPN negotiated
+</span></span><span style="display:flex;"><span>Early data was not sent
+</span></span><span style="display:flex;"><span>Verify <span style="color:#66d9ef">return</span> code: <span style="color:#ae81ff">18</span> <span style="color:#f92672">(</span>self-signed certificate<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Post-Handshake New Session Ticket arrived:
+</span></span><span style="display:flex;"><span>SSL-Session:
+</span></span><span style="display:flex;"><span>    Protocol  : TLSv1.3
+</span></span><span style="display:flex;"><span>    Cipher    : TLS_AES_256_GCM_SHA384
+</span></span><span style="display:flex;"><span>    Session-ID: BC9929630BF0AF060B5BF2A8E82ACF4B3E05B0ABED4405F69033B611B789A075
+</span></span><span style="display:flex;"><span>    Session-ID-ctx:
+</span></span><span style="display:flex;"><span>    Resumption PSK: 8D6DD110A0BB24AE85C1078761DEF47FE1C09C7FCB1090532006A1DFB9087072A6085E75CD3D1A8B7BE063A13FCE1CD8
+</span></span><span style="display:flex;"><span>    PSK identity: None
+</span></span><span style="display:flex;"><span>    PSK identity hint: None
+</span></span><span style="display:flex;"><span>    SRP username: None
+</span></span><span style="display:flex;"><span>    TLS session ticket lifetime hint: <span style="color:#ae81ff">300</span> <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    TLS session ticket:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0000</span> - bf 3f 8a a0 <span style="color:#ae81ff">79</span> ae <span style="color:#ae81ff">50</span> 18-07 9d e0 da <span style="color:#ae81ff">81</span> <span style="color:#ae81ff">56</span> b3 fb   .?..y.P......V..
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0010</span> - <span style="color:#ae81ff">03</span> 9e 7d <span style="color:#ae81ff">63</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">18</span> <span style="color:#ae81ff">13</span> b8-3e <span style="color:#ae81ff">73</span> <span style="color:#ae81ff">88</span> c9 dc cc <span style="color:#ae81ff">25</span> cf   ..<span style="color:#f92672">}</span>cH...&gt;s....%.
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0020</span> - b2 6b e0 d5 7f ed <span style="color:#ae81ff">04</span> 48-9f 6e <span style="color:#ae81ff">69</span> a3 8c fe 1c cf   .k.....H.ni.....
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0030</span> - 5a d1 d8 3d e9 0c <span style="color:#ae81ff">24</span> 8a-fa fe <span style="color:#ae81ff">69</span> ca 5f a0 0d <span style="color:#ae81ff">90</span>   Z..<span style="color:#f92672">=</span>..$...i._...
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0040</span> - 4d <span style="color:#ae81ff">72</span> db f1 4d 4b <span style="color:#ae81ff">75</span> 2c-a5 <span style="color:#ae81ff">03</span> 4d <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">56</span> <span style="color:#ae81ff">19</span> 0b 1d   Mr..MKu,..MDV...
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0050</span> - c8 e5 <span style="color:#ae81ff">31</span> 1d <span style="color:#ae81ff">10</span> a7 1e 1b-a6 <span style="color:#ae81ff">88</span> 7f <span style="color:#ae81ff">84</span> ff <span style="color:#ae81ff">20</span> <span style="color:#ae81ff">31</span> f6   ..1.......... 1.
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0060</span> - dc dd ed e6 <span style="color:#ae81ff">34</span> <span style="color:#ae81ff">54</span> eb 5b-5a fb <span style="color:#ae81ff">69</span> 5e 9c <span style="color:#ae81ff">88</span> 0c <span style="color:#ae81ff">55</span>   ....4T.<span style="color:#f92672">[</span>Z.i^...U
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0070</span> - <span style="color:#ae81ff">46</span> b4 <span style="color:#ae81ff">70</span> 6a 4c 3b <span style="color:#ae81ff">60</span> c9-b2 3b f2 <span style="color:#ae81ff">92</span> <span style="color:#ae81ff">47</span> 0e ac <span style="color:#ae81ff">26</span>   F.pjL;<span style="color:#e6db74">`</span>..;..G..&amp;
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0080</span> - <span style="color:#ae81ff">43</span> 6d <span style="color:#ae81ff">60</span> 4d b4 3a 9c 0c-68 <span style="color:#ae81ff">32</span> eb 4f 9f bf <span style="color:#ae81ff">72</span> 3a   Cm<span style="color:#e6db74">`</span>M.:..h2.O..r:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0090</span> - <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">88</span> <span style="color:#ae81ff">90</span> <span style="color:#ae81ff">51</span> bf 3d 0f 0a-22 ed <span style="color:#ae81ff">52</span> cd d7 6b <span style="color:#ae81ff">18</span> 6a   $..Q.<span style="color:#f92672">=</span>..<span style="color:#e6db74">&#34;.R..k.j
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00a0 - f3 e5 6a 40 fc c0 aa 14-e9 01 e2 c5 b4 24 c2 17   ..j@.........</span>$<span style="color:#e6db74">..
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00b0 - 33 a6 84 43 5f ce 17 bb-a8 89 ac e0 e0 c8 cb 03   3..C_...........
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00c0 - 6d a9 4c 2b ea 36 39 44-cf 10 03 7c de ad 67 2c   m.L+.69D...|..g,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00d0 - ef 79 14 90 6c 87 77 0e-47 e6 a8 22 bd 0c 21 38   .y..l.w.G..&#34;</span>..!8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Start Time: <span style="color:#ae81ff">1732607060</span>
+</span></span><span style="display:flex;"><span>    Timeout   : <span style="color:#ae81ff">7200</span> <span style="color:#f92672">(</span>sec<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Verify <span style="color:#66d9ef">return</span> code: <span style="color:#ae81ff">18</span> <span style="color:#f92672">(</span>self-signed certificate<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Extended master secret: no
+</span></span><span style="display:flex;"><span>    Max Early Data: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>read R BLOCK
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Post-Handshake New Session Ticket arrived:
+</span></span><span style="display:flex;"><span>SSL-Session:
+</span></span><span style="display:flex;"><span>    Protocol  : TLSv1.3
+</span></span><span style="display:flex;"><span>    Cipher    : TLS_AES_256_GCM_SHA384
+</span></span><span style="display:flex;"><span>    Session-ID: AF6544C520B2D327FC6866C869F9B2E25F4D55399A337A076B07B0205101A33F
+</span></span><span style="display:flex;"><span>    Session-ID-ctx:
+</span></span><span style="display:flex;"><span>    Resumption PSK: D67260E674B91DECEA4E73FCD5ECF71DA5522C3FF033CD8D4D9F8563190028726DF1317C15D3950EE2490C129CC83F14
+</span></span><span style="display:flex;"><span>    PSK identity: None
+</span></span><span style="display:flex;"><span>    PSK identity hint: None
+</span></span><span style="display:flex;"><span>    SRP username: None
+</span></span><span style="display:flex;"><span>    TLS session ticket lifetime hint: <span style="color:#ae81ff">300</span> <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    TLS session ticket:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0000</span> - bf 3f 8a a0 <span style="color:#ae81ff">79</span> ae <span style="color:#ae81ff">50</span> 18-07 9d e0 da <span style="color:#ae81ff">81</span> <span style="color:#ae81ff">56</span> b3 fb   .?..y.P......V..
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0010</span> - <span style="color:#ae81ff">87</span> fb f1 2d d7 <span style="color:#ae81ff">35</span> 4d 6a-6e ca 4c 1a <span style="color:#ae81ff">25</span> ee bf <span style="color:#ae81ff">16</span>   ...-.5Mjn.L.%...
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0020</span> - 3b c5 2e a2 6c 9c bb c1-9e 2c 2a 2f ed <span style="color:#ae81ff">11</span> 3f be   ;...l....,*/..?.
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0030</span> - <span style="color:#ae81ff">67</span> <span style="color:#ae81ff">06</span> <span style="color:#ae81ff">15</span> <span style="color:#ae81ff">91</span> 7f <span style="color:#ae81ff">07</span> f8 db-48 fc <span style="color:#ae81ff">45</span> eb f4 <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">97</span> c6   g.......H.E..$..
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0040</span> - <span style="color:#ae81ff">53</span> 8c 1b <span style="color:#ae81ff">83</span> <span style="color:#ae81ff">00</span> 7b a8 b6-37 <span style="color:#ae81ff">14</span> b6 6f 3e <span style="color:#ae81ff">33</span> <span style="color:#ae81ff">91</span> <span style="color:#ae81ff">22</span>   S....<span style="color:#f92672">{</span>..7..o&gt;3.<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    0050 - 36 c6 32 eb 23 69 fb 2a-6b 51 28 28 72 1e d8 fc   6.2.#i.*kQ((r...
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    0060 - 00 21 b1 d2 41 77 12 98-00 6e af e3 16 d5 cd b7   .!..Aw...n......
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    0070 - 7f 8f 12 03 4b d0 ac b9-6e b7 c8 6c 66 b3 de 84   ....K...n..lf...
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    0080 - 71 bf fd 44 81 ca bf e3-8f da f9 95 1b 41 78 c9   q..D.........Ax.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    0090 - f7 09 9a 52 30 37 b8 ef-13 94 cb 59 bf 59 bf 54   ...R07.....Y.Y.T
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00a0 - 89 63 e2 11 ad 15 9f 4c-44 cf 1c 32 81 5a c3 70   .c.....LD..2.Z.p
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00b0 - 1a c1 57 e1 d1 fa b7 97-02 7d 9b c9 67 c2 8a ac   ..W......}..g...
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00c0 - dc 67 17 3f 4c e3 18 32-4d 6c e4 8f 23 e9 d7 9d   .g.?L..2Ml..#...
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    00d0 - 20 db 55 cf 02 93 9b d1-96 ae 54 33 0c 4c 54 39    .U.......T3.LT9
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Start Time: 1732607060
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Timeout   : 7200 (sec)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Verify return code: 18 (self-signed certificate)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Extended master secret: no
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Max Early Data: 0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">read R BLOCK
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Correct!
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit16
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
+</span></span></code></pre></div><h2 id="level-16-17">Level 16-&gt;17</h2>
+<p>The credentials for the next level can be retrieved by submitting the password of the current level to <strong>a port on localhost in the range 31000 to 32000</strong>. First find out which of these ports have a server listening on them. Then find out which of those speak SSL/TLS and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span></code></pre></div><h2 id="level-17-18">Level 17-&gt;18</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span></code></pre></div><h2 id="level-18-19">Level 18-&gt;19</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span></code></pre></div><h2 id="level-19-20">Level 19-&gt;20</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span></code></pre></div><h2 id="level-20-21">Level 20-&gt;21</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bandit.labs.overthewire.org -p <span style="color:#ae81ff">2220</span> -l bandit
+</span></span><span style="display:flex;"><span>bandit1@bandit.labs.overthewire.org<span style="color:#960050;background-color:#1e0010">&#39;</span>s password: 
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+    </body></html>

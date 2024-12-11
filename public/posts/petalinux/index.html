@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Create Project
+source &lt;path-to-installed-Petalinux&gt;/settings.sh
+petalinux-create -t project --template zynqMP -n &lt;projname&gt;
+cd &lt;projname&gt;
+
+Setup Config
+petalinux-config --get-hw-description=&lt;.xsa-path&gt;
+Yocto settings
+YOCTO_MACHINE_NAME -&gt; xilinx-zcu102.conf
+DTG Settings
+MACHINE_NAME -&gt; zcu102-rev1.0
+
+Adding a Custom Application
+petalinux-create -t apps --template c --name &lt;appname&gt; --enable
+
+add files
+edit makefile
+edit .bb
+
+petalinux-build -c &lt;appname&gt;
+
+Kernel Configuration
+petalinux-config -c kernel
+Kernel Hacking
+[ ] Filter access to /dev/mem
+Device Drivers
+[*] Userspace I/O drivers
+	---&gt; [*] Userspace I/O platform driver with generic IRQ handling
+	---&gt; [*] Userspace I/O platform driver with generic IRQ handling and dynamic memory
+
+RFS Configuration
+petalinux-config -c rootfs
+Apps
+	---&gt; [*] &lt;your app&gt;
+Image Features
+	---&gt; [*] auto-login
+
+issue when running under the &ldquo;petalinux&rdquo; user account where access to /dev/mem/ is blocked
+
+enabling auto-login (root) fixed but is an &ldquo;unsecure&rdquo; solution
+not for production &#43; idc
+
+
+
+
+Device Tree and U-Boot Modification
+petalinux-build -c device-tree
+Memory Mapping
+cd project-spec/meta-user/recipes-bsp/device-tree/files
+&lt;edit&gt; system-user.dtsi
+
+/include/ &#34;system-conf.dtsi&#34;
+/ {
+   #address-cells = &lt;2&gt;;
+   #size-cells = &lt;2&gt;;
+   memory {
+       device_type = &#34;memory&#34;;
+       reg = &lt;0x0 0x0 0x0 0x80000000&gt;, &lt;0x0 0xa0000000 0x0 0x100000&gt;, &lt;0x00000008 0x00000000 0x0 0x80000000&gt;;
+   };
+   reserved-memory {
+       ranges;
+       reserved {
+           reg = &lt;0x0 0xa0000000 0x0 0x100000&gt;;
+       };
+   };
+};
+
+&amp;axi_bram_ctrl_0 {
+    status = &#34;disabled&#34;;
+};
+
+Regs are set for 1MB of BRAM starting at 0xA0000000 (based on Vivado/FPGA design)
+
+U-boot Config
+cd project-spec/meta-user/recipes-bsp/u-boot/files
+micro platform-top.h
+#define CONFIG_NR_DRAM_BANKS 3
+
+Build
+petalinux-build
+
+Package and Boot
+cd images/linux
+petalinux-package --boot --format BIN --fsbl zynqmp_fsbl.elf --u-boot --fpga --force
+
+bitstream not automatically included in 2022.1 PL
+
+add &ndash;fpga flag if using custom block design
+
+
+copy the BOOT.bin, boot.scr, and image.ub into the SD card
+
+References
+
+https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842412/Accessing&#43;BRAM&#43;In&#43;Linux
+">  
+
+  <title>
+    
+      PetaLinux 2022.1 Example / BRAM build
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2023-08-01 17:20:44 -0800 -0800">
+                            2023-08-01
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>PetaLinux 2022.1 Example / BRAM build</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#create-project">Create Project</a></li>
+    <li><a href="#setup-config">Setup Config</a>
+      <ul>
+        <li><a href="#yocto-settings">Yocto settings</a></li>
+        <li><a href="#dtg-settings">DTG Settings</a></li>
+      </ul>
+    </li>
+    <li><a href="#adding-a-custom-application">Adding a Custom Application</a></li>
+    <li><a href="#kernel-configuration">Kernel Configuration</a>
+      <ul>
+        <li><a href="#kernel-hacking">Kernel Hacking</a></li>
+        <li><a href="#device-drivers">Device Drivers</a></li>
+      </ul>
+    </li>
+    <li><a href="#rfs-configuration">RFS Configuration</a></li>
+    <li><a href="#device-tree-and-u-boot-modification">Device Tree and U-Boot Modification</a>
+      <ul>
+        <li><a href="#memory-mapping">Memory Mapping</a></li>
+      </ul>
+    </li>
+    <li><a href="#u-boot-config">U-boot Config</a></li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#package-and-boot">Package and Boot</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="create-project">Create Project</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>source &lt;path-to-installed-Petalinux&gt;/settings.sh
+</span></span><span style="display:flex;"><span>petalinux-create -t project --template zynqMP -n &lt;projname&gt;
+</span></span><span style="display:flex;"><span>cd &lt;projname&gt;
+</span></span></code></pre></div><hr>
+<h2 id="setup-config">Setup Config</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-config --get-hw-description<span style="color:#f92672">=</span>&lt;.xsa-path&gt;
+</span></span></code></pre></div><h3 id="yocto-settings">Yocto settings</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>YOCTO_MACHINE_NAME -&gt; xilinx-zcu102.conf
+</span></span></code></pre></div><h3 id="dtg-settings">DTG Settings</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>MACHINE_NAME -&gt; zcu102-rev1.0
+</span></span></code></pre></div><hr>
+<h2 id="adding-a-custom-application">Adding a Custom Application</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-create -t apps --template c --name &lt;appname&gt; --enable
+</span></span></code></pre></div><ul>
+<li>add files</li>
+<li>edit makefile</li>
+<li>edit .bb</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-build -c &lt;appname&gt;
+</span></span></code></pre></div><hr>
+<h2 id="kernel-configuration">Kernel Configuration</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-config -c kernel
+</span></span></code></pre></div><h3 id="kernel-hacking">Kernel Hacking</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> <span style="color:#f92672">]</span> Filter access to /dev/mem
+</span></span></code></pre></div><h3 id="device-drivers">Device Drivers</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Userspace I/O drivers
+</span></span><span style="display:flex;"><span>	---&gt; <span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Userspace I/O platform driver with generic IRQ handling
+</span></span><span style="display:flex;"><span>	---&gt; <span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Userspace I/O platform driver with generic IRQ handling and dynamic memory
+</span></span></code></pre></div><hr>
+<h2 id="rfs-configuration">RFS Configuration</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-config -c rootfs
+</span></span><span style="display:flex;"><span>Apps
+</span></span><span style="display:flex;"><span>	---&gt; <span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> &lt;your app&gt;
+</span></span><span style="display:flex;"><span>Image Features
+</span></span><span style="display:flex;"><span>	---&gt; <span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> auto-login
+</span></span></code></pre></div><ul>
+<li>issue when running under the &ldquo;petalinux&rdquo; user account where access to /dev/mem/ is blocked
+<ul>
+<li>enabling auto-login (root) fixed but is an &ldquo;unsecure&rdquo; solution</li>
+<li>not for production + idc</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="device-tree-and-u-boot-modification">Device Tree and U-Boot Modification</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>petalinux-build -c device-tree
+</span></span></code></pre></div><h3 id="memory-mapping">Memory Mapping</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd project-spec/meta-user/recipes-bsp/device-tree/files
+</span></span><span style="display:flex;"><span>&lt;edit&gt; system-user.dtsi
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/include/ <span style="color:#e6db74">&#34;system-conf.dtsi&#34;</span>
+</span></span><span style="display:flex;"><span>/ <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">#address-cells = &lt;2&gt;;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">#size-cells = &lt;2&gt;;</span>
+</span></span><span style="display:flex;"><span>   memory <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       device_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;memory&#34;</span>;
+</span></span><span style="display:flex;"><span>       reg <span style="color:#f92672">=</span> &lt;0x0 0x0 0x0 0x80000000&gt;, &lt;0x0 0xa0000000 0x0 0x100000&gt;, &lt;0x00000008 0x00000000 0x0 0x80000000&gt;;
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>   reserved-memory <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       ranges;
+</span></span><span style="display:flex;"><span>       reserved <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>           reg <span style="color:#f92672">=</span> &lt;0x0 0xa0000000 0x0 0x100000&gt;;
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&amp;axi_bram_ctrl_0 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;disabled&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>;
+</span></span></code></pre></div><ul>
+<li>Regs are set for 1MB of BRAM starting at 0xA0000000 (based on Vivado/FPGA design)</li>
+</ul>
+<h2 id="u-boot-config">U-boot Config</h2>
+<pre tabindex="0"><code>cd project-spec/meta-user/recipes-bsp/u-boot/files
+micro platform-top.h
+</code></pre><pre tabindex="0"><code>#define CONFIG_NR_DRAM_BANKS 3
+</code></pre><hr>
+<h2 id="build">Build</h2>
+<pre tabindex="0"><code>petalinux-build
+</code></pre><hr>
+<h2 id="package-and-boot">Package and Boot</h2>
+<pre tabindex="0"><code>cd images/linux
+petalinux-package --boot --format BIN --fsbl zynqmp_fsbl.elf --u-boot --fpga --force
+</code></pre><ul>
+<li>bitstream not automatically included in 2022.1 PL
+<ul>
+<li>add &ndash;fpga flag if using custom block design</li>
+</ul>
+</li>
+<li>copy the BOOT.bin, boot.scr, and image.ub into the SD card</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842412/Accessing+BRAM+In+Linux">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842412/Accessing+BRAM+In+Linux</a></li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

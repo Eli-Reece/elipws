@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=35499&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Hardware
+
+STM32 board
+ST-Link V2
+
+Install the tools
+
+CubeMX
+GNU ARM Embedded Toolchain
+
+arm-none-eabi-gcc
+arm-none-eabi-gdb
+arm-none-eabi-newlib
+
+
+make
+OpenOCD
+
+On-Chip Debugger software that will upload compiled code to the STM32
+
+
+vscode
+
+stm32-for-vscode extension
+
+
+
+CubeMX Configuration
+
+Configure Project output to Makefile
+
+Project Manager-&gt;Project-&gt;Toolchain/IDE
+set to Makefile
+
+Set project to copy all used libraries to the project folder
+
+Code Generator tab
+enable &#39;Copy all use libraries into the project folder&#39;
+
+Do whatever ever configuration then build
+
+click &#39;GENERATE CODE&#39;
+VSCode
+
+Open the project in vscode
+Write code
+
+Use Extension Icon or Open the command palette (Ctrl&#43;Shift&#43;P) or Ctrl&#43;Shift&#43;B
+Build STM32 Project
+Flash STM32
+References
+
+https://gist.github.com/Bonnee/393c4be25d2e8620d9ec406073940d3a
+">  
+
+  <title>
+    
+      STM32 Arch Workflow
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.18e297f9c7b534b566a0a070712181cc69b4f1155e1b8d1fe541304605c4f6ab7d7460a557a004bf67fd09787aef348cf619f6dd8d310362898a41b1465ddd4d.css" integrity="sha512-GOKX&#43;ce1NLVmoKBwcSGBzGm08RVeG40f5UEwRgXE9qt9dGClV6AEv2f9CXh67zSM9hn23Y0xA2KJikGxRl3dTQ==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-03-22 17:20:53 -0800 -0800">
+                            2024-03-22
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>STM32 Arch Workflow</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#install-the-tools">Install the tools</a></li>
+    <li><a href="#cubemx-configuration">CubeMX Configuration</a></li>
+    <li><a href="#vscode">VSCode</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="hardware">Hardware</h2>
+<ul>
+<li>STM32 board</li>
+<li>ST-Link V2</li>
+</ul>
+<h2 id="install-the-tools">Install the tools</h2>
+<ul>
+<li>CubeMX</li>
+<li>GNU ARM Embedded Toolchain
+<ul>
+<li>arm-none-eabi-gcc</li>
+<li>arm-none-eabi-gdb</li>
+<li>arm-none-eabi-newlib</li>
+</ul>
+</li>
+<li>make</li>
+<li>OpenOCD
+<ul>
+<li>On-Chip Debugger software that will upload compiled code to the STM32</li>
+</ul>
+</li>
+<li>vscode
+<ul>
+<li>stm32-for-vscode extension</li>
+</ul>
+</li>
+</ul>
+<h2 id="cubemx-configuration">CubeMX Configuration</h2>
+<ul>
+<li>Configure Project output to Makefile</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Project Manager-&gt;Project-&gt;Toolchain/IDE
+</span></span><span style="display:flex;"><span>set to Makefile
+</span></span></code></pre></div><ul>
+<li>Set project to copy all used libraries to the project folder</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Code Generator tab
+</span></span><span style="display:flex;"><span>enable <span style="color:#e6db74">&#39;Copy all use libraries into the project folder&#39;</span>
+</span></span></code></pre></div><ul>
+<li>Do whatever ever configuration then build</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>click <span style="color:#e6db74">&#39;GENERATE CODE&#39;</span>
+</span></span></code></pre></div><h2 id="vscode">VSCode</h2>
+<ul>
+<li>Open the project in vscode</li>
+<li>Write code</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Use Extension Icon or Open the command palette <span style="color:#f92672">(</span>Ctrl+Shift+P<span style="color:#f92672">)</span> or Ctrl+Shift+B
+</span></span><span style="display:flex;"><span>Build STM32 Project
+</span></span><span style="display:flex;"><span>Flash STM32
+</span></span></code></pre></div><h1 id="references">References</h1>
+<ul>
+<li><a href="https://gist.github.com/Bonnee/393c4be25d2e8620d9ec406073940d3a">https://gist.github.com/Bonnee/393c4be25d2e8620d9ec406073940d3a</a></li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>
