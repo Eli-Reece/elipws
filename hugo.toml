@@ -1,0 +1,4 @@
+baseURL = 'https://elishareece.com/'
+languageCode = 'en-us'
+title = 'Eli Reece Website'
+theme = "no-style-please"
