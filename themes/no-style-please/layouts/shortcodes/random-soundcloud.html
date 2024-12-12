@@ -1,8 +1,16 @@
 {{ $json := resources.Get "data/soundcloud-tracks.json" }}
 {{ if $json }}
     {{ $data := $json | transform.Unmarshal }}
-    {{ $randomTrack := index $data.tracks (math.Mod now.UnixNano (len $data.tracks)) }}
-    <a href="{{ $randomTrack.url }}">{{ $randomTrack.artist }} - {{ $randomTrack.track }} </a>
+    <div id="random-track" data-tracks="{{ $data.tracks | jsonify }}"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const trackElement = document.getElementById('random-track');
+            const tracks = JSON.parse(trackElement.dataset.tracks);
+            const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
+            trackElement.innerHTML = `<a href="${randomTrack.url}">${randomTrack.artist} - ${randomTrack.track}</a>`;
+        });
+    </script>
 {{ else }}
     <!-- For debugging -->
     <p>Could not load JSON file</p>
