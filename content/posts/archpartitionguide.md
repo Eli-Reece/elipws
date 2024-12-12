@@ -1,5 +1,5 @@
 +++
-date = '2024-12-10T17:21:29-08:00'
+date = '2024-03-10T17:21:29-08:00'
 title = 'Arch Partition Guide'
 +++
 1. Start fdisk on your target disk (replace X with the appropriate letter):

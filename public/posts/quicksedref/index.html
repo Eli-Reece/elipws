@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="sed (stream editor) is a command-line utility for parsing and transforming text
+Usage
+$ sed &#39;command&#39; filename
+Substitution:
+
+Replaces the first occurrence on each line
+
+Suppose you have a file named names.txt:
+John Smith
+Jane Doe
+John Johnson
+To replace the first occurrence of &ldquo;John&rdquo; with &ldquo;Jonathan&rdquo; on each line:
+$ sed &#39;s/John/Jonathan/&#39; names.txt
+Output:
+Jonathan Smith
+Jane Doe
+Jonathan Johnson
+Global substitution:
+
+Replaces all occurrences of a pattern in each line
+
+Using the same names.txt file:">  
+
+  <title>
+    
+      Quick sed reference
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.eefee2ed59a087e4bb7924f0558deb11e6de47fd5921a110be0b5adaefa4a1af71328a7b8461e5db1fe12038cfdee194e5361566275f8e8d99696f51e1625e6c.css" integrity="sha512-7v7i7Vmgh&#43;S7eSTwVY3rEebeR/1ZIaEQvgta2u&#43;koa9xMop7hGHl2x/hIDjP3uGU5TYVZidfjo2ZaW9R4WJebA==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2023-12-11 20:27:14 -0800 PST">
+                            2023-12-11
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Quick sed reference</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#substitution">Substitution:</a></li>
+    <li><a href="#global-substitution">Global substitution:</a></li>
+    <li><a href="#delete-lines">Delete lines:</a></li>
+    <li><a href="#in-place-editing">In-place editing:</a></li>
+    <li><a href="#using-find-and-exec-with-sed">Using find and exec with sed</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <p>sed (stream editor) is a command-line utility for parsing and transforming text</p>
+<h2 id="usage">Usage</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sed <span style="color:#e6db74">&#39;command&#39;</span> filename
+</span></span></code></pre></div><h2 id="substitution">Substitution:</h2>
+<ul>
+<li>Replaces the first occurrence on each line</li>
+</ul>
+<p>Suppose you have a file named <em>names.txt</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>John Smith
+</span></span><span style="display:flex;"><span>Jane Doe
+</span></span><span style="display:flex;"><span>John Johnson
+</span></span></code></pre></div><p>To replace the first occurrence of &ldquo;John&rdquo; with &ldquo;Jonathan&rdquo; on each line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sed <span style="color:#e6db74">&#39;s/John/Jonathan/&#39;</span> names.txt
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>Jonathan Smith
+</span></span><span style="display:flex;"><span>Jane Doe
+</span></span><span style="display:flex;"><span>Jonathan Johnson
+</span></span></code></pre></div><h2 id="global-substitution">Global substitution:</h2>
+<ul>
+<li>Replaces all occurrences of a pattern in each line</li>
+</ul>
+<p>Using the same <em>names.txt</em> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sed <span style="color:#e6db74">&#39;s/John/Jonathan/g&#39;</span> names.txt
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>Jonathan Smith
+</span></span><span style="display:flex;"><span>Jane Doe
+</span></span><span style="display:flex;"><span>Jonathan Jonathanson
+</span></span></code></pre></div><h2 id="delete-lines">Delete lines:</h2>
+<p>Consider a log file <em>app.log</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>INFO: Application started
+</span></span><span style="display:flex;"><span>ERROR: Database connection failed
+</span></span><span style="display:flex;"><span>INFO: User logged in
+</span></span><span style="display:flex;"><span>ERROR: Invalid input
+</span></span></code></pre></div><p>To remove all error lines:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sed <span style="color:#e6db74">&#39;/ERROR/d&#39;</span> app.log
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>INFO: Application started
+</span></span><span style="display:flex;"><span>INFO: User logged in
+</span></span></code></pre></div><h2 id="in-place-editing">In-place editing:</h2>
+<ul>
+<li>The <code>-i</code> option allows sed to modify files directly</li>
+</ul>
+<p>Let&rsquo;s say you have a configuration file named `<em>config.txt</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>Server Configuration
+</span></span><span style="display:flex;"><span>HOST=localhost
+</span></span><span style="display:flex;"><span>PORT=8080
+</span></span><span style="display:flex;"><span>DEBUG=true
+</span></span><span style="display:flex;"><span>ENVIRONMENT=development
+</span></span></code></pre></div><p>To change the development environment to production, you could use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sed -i <span style="color:#e6db74">&#39;s/development/production/&#39;</span> config.txt
+</span></span></code></pre></div><p>After running this command, `<em>config.txt</em> will be modified directly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span># Server Configuration
+</span></span><span style="display:flex;"><span>HOST=localhost
+</span></span><span style="display:flex;"><span>PORT=8080
+</span></span><span style="display:flex;"><span>DEBUG=true
+</span></span><span style="display:flex;"><span>ENVIRONMENT=production
+</span></span></code></pre></div><h2 id="using-find-and-exec-with-sed">Using find and exec with sed</h2>
+<p>The <code>find</code> command can be used together with <code>sed</code> to apply transformations=
+to multiple files in a directory structure. This is particularly useful wh=
+en you need to make changes across many files at once.</p>
+<p>Syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find <span style="color:#f92672">[</span>path<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>expression<span style="color:#f92672">]</span> -exec sed <span style="color:#f92672">[</span>sed_options<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>sed_script<span style="color:#f92672">]</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div><p>Example:</p>
+<p>Let&rsquo;s say you have a project directory with multiple <em>.txt</em> files, and you =
+want to replace all occurrences of &ldquo;colour&rdquo; with &ldquo;color&rdquo; in these files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find . -name <span style="color:#e6db74">&#34;*.txt&#34;</span> -exec sed -i <span style="color:#e6db74">&#39;s/colour/color/g&#39;</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div><p>Breakdown:</p>
+<ul>
+<li><code>find .</code>: Start searching in the current directory</li>
+<li><code>-name &quot;*.txt&quot;</code>: Look for files ending with .txt</li>
+<li><code>-exec</code>: Execute a command on each file found</li>
+<li><code>sed -i 's/colour/color/g'</code>: The sed command to run (in-place edit, globa=
+l substitution)</li>
+<li><code>{} +</code>: <code>{}</code> is replaced with the filename, and <code>+</code> tells find to pass as=
+many filenames as possible to one invocation of sed</li>
+</ul>
+<p>More examples:</p>
+<ol>
+<li>
+<p>Replace &ldquo;foo&rdquo; with &ldquo;bar&rdquo; in all .c files, creating backups:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find . -name <span style="color:#e6db74">&#34;*.php&#34;</span> -exec sed -i.bak <span style="color:#e6db74">&#39;s/foo/bar/g&#39;</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div></li>
+<li>
+<p>Delete all lines containing &ldquo;DEBUG&rdquo; in .log files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find /var/log -name <span style="color:#e6db74">&#34;*.log&#34;</span> -exec sed -i <span style="color:#e6db74">&#39;/DEBUG/d&#39;</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div></li>
+<li>
+<p>Add a new line after each line containing &ldquo;START&rdquo; in .conf files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find /etc -name <span style="color:#e6db74">&#34;*.conf&#34;</span> -exec sed -i <span style="color:#e6db74">&#39;/START/a\New line here&#39;</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div></li>
+<li>
+<p>Combine multiple sed operations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find . -type f -exec sed -i -e <span style="color:#e6db74">&#39;s/old/new/g&#39;</span> -e <span style="color:#e6db74">&#39;/pattern/d&#39;</span> <span style="color:#f92672">{}</span> +
+</span></span></code></pre></div></li>
+</ol>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

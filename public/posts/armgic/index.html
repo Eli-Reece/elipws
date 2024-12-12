@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="GICD_ISENABLER and GICD_ICENABLER
+The ARM Generic Interrupt Controller architecture specification describes two
+sets of registers meant for enabling and disabling the forwarding
+of interrupts at the GIC Distributor.
+
+Interrupt Set-Enable Registers: GICD_ISENABLER
+Interrupt Clear-Enable Registers: GICD_ICENABLER
+
+For INTID m, when DIV and MOD are the integer division and modulo operati=
+ons:
+
+The corresponding ENABLER number, n, is given by:
+
+
+n = m DIV 32">  
+
+  <title>
+    
+      ARM GIC Interrupt Toggle Guide
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.eefee2ed59a087e4bb7924f0558deb11e6de47fd5921a110be0b5adaefa4a1af71328a7b8461e5db1fe12038cfdee194e5361566275f8e8d99696f51e1625e6c.css" integrity="sha512-7v7i7Vmgh&#43;S7eSTwVY3rEebeR/1ZIaEQvgta2u&#43;koa9xMop7hGHl2x/hIDjP3uGU5TYVZidfjo2ZaW9R4WJebA==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-08-11 20:10:31 -0800 -0800">
+                            2024-08-11
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>ARM GIC Interrupt Toggle Guide</h1>
+
+    
+        <aside  class="toc" >
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#gicd_isenabler-and-gicd_icenabler">GICD_ISENABLER and GICD_ICENABLER</a></li>
+    <li><a href="#apu-gic-base-address">APU GIC Base Address</a></li>
+    <li><a href="#determining-the-interrupt-id-intid">Determining the Interrupt ID (INTID)</a></li>
+    <li><a href="#c-example">C Example</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+        </aside>
+    
+
+    <h2 id="gicd_isenabler-and-gicd_icenabler">GICD_ISENABLER and GICD_ICENABLER</h2>
+<p>The ARM Generic Interrupt Controller architecture specification describes two
+sets of registers meant for enabling and disabling the forwarding
+of interrupts at the GIC Distributor.</p>
+<ul>
+<li>Interrupt Set-Enable Registers: GICD_ISENABLER<!-- raw HTML omitted --></li>
+<li>Interrupt Clear-Enable Registers: GICD_ICENABLER<!-- raw HTML omitted --></li>
+</ul>
+<p>For INTID <code>m</code>, when DIV and MOD are the integer division and modulo operati=
+ons:</p>
+<ul>
+<li>The corresponding ENABLER<!-- raw HTML omitted --> number, <code>n</code>, is given by:</li>
+</ul>
+<blockquote>
+<p>n = m DIV 32</p>
+</blockquote>
+<ul>
+<li>The offset of the required I<!-- raw HTML omitted -->S<!-- raw HTML omitted -->ENABLER<!-- raw HTML omitted --> (Enable) is:</li>
+</ul>
+<blockquote>
+<p>(0x100 + (4*n))</p>
+</blockquote>
+<ul>
+<li>The offset of the required I<!-- raw HTML omitted -->C<!-- raw HTML omitted -->ENABLER<!-- raw HTML omitted --> (Disable) is:</li>
+</ul>
+<blockquote>
+<p>(0x180 + (4*n))</p>
+</blockquote>
+<ul>
+<li>The bit number of the required group modifier bit in this register is:</li>
+</ul>
+<blockquote>
+<p>m = MOD 32</p>
+</blockquote>
+<p>NOTE: Writing a 1 to a GICD_ICENABLER<!-- raw HTML omitted --> bit only disables the forwarding of the
+corresponding interrupt from the Distributor to any CPU interface. It does not
+prevent the interrupt from changing state, for example becoming pending or
+active and pending if it is already active</p>
+<h2 id="apu-gic-base-address">APU GIC Base Address</h2>
+<p>The Zynq Ultrascale+ Devices Register Reference (UG1087) contains information on
+the APU GIC Interrupt Controller and its registers.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Register Name</th>
+          <th style="text-align: center">Offset</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER0</td>
+          <td style="text-align: center">0x0000010100</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER1</td>
+          <td style="text-align: center">0x0000010104</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER2</td>
+          <td style="text-align: center">0x0000010108</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER3</td>
+          <td style="text-align: center">0x000001010C</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER4</td>
+          <td style="text-align: center">0x0000010110</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ISENABLER5</td>
+          <td style="text-align: center">0x0000010114</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER0</td>
+          <td style="text-align: center">0x0000010180</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER1</td>
+          <td style="text-align: center">0x0000010184</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER2</td>
+          <td style="text-align: center">0x0000010188</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER3</td>
+          <td style="text-align: center">0x000001018C</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER4</td>
+          <td style="text-align: center">0x0000010190</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">GICD_ICENABLER5</td>
+          <td style="text-align: center">0x0000010194</td>
+      </tr>
+  </tbody>
+</table>
+<p>NOTE: Base address of the APU GIC Interrupt for Zynq Ultrascale+ Devices is
+<code>0xF9000000</code> but the offsets start at <code>0x10000</code> giving us <code>0xF9010000</code>
+as our base address.</p>
+<h2 id="determining-the-interrupt-id-intid">Determining the Interrupt ID (INTID)</h2>
+<p>The Zynq UltraScale+ TRM (UG1085) Table 13-1 lists all system interrupts and
+their corresponding GIC number. PL_PS_Group 0 and 1 corresponds to interrupts
+from the PL which enter the PS at the GIC. You can stipulate the GIC number of
+your interrupt signal from this.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Name</th>
+          <th>GIC #</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>PL_PS_Group0</td>
+          <td>121:128</td>
+          <td>PL to PS interrupt signals 0 to 7</td>
+      </tr>
+      <tr>
+          <td>PL_PS_Group1</td>
+          <td>136:143</td>
+          <td>PL to PS interrupt signals 8 to 15</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>Example: I routed a UART interrupt to pin 0 of the GIC, therefore my GIC#/INTID is 121</p>
+</blockquote>
+<p>You can also determine the INTID on target with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat /proc/interrupts
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>  22:          <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>     GIC  <span style="color:#ae81ff">35</span> Level     arm-pmu
+</span></span><span style="display:flex;"><span>  23:          <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>     GIC  <span style="color:#ae81ff">37</span> Level     cdns-i2c
+</span></span><span style="display:flex;"><span>  24:         <span style="color:#ae81ff">42</span>          <span style="color:#ae81ff">0</span>     GIC  <span style="color:#ae81ff">38</span> Level     cdns-i2c
+</span></span><span style="display:flex;"><span> 138:       <span style="color:#ae81ff">1254</span>          <span style="color:#ae81ff">0</span>     GIC <span style="color:#ae81ff">138</span> Level     ptp_sync
+</span></span><span style="display:flex;"><span> 139:          <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>     GIC <span style="color:#ae81ff">139</span> Level     xilinx-dpdma
+</span></span><span style="display:flex;"><span> 140:          <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>     GIC <span style="color:#ae81ff">140</span> Level     xilinx-display
+</span></span></code></pre></div><p><em>INTID is the value after GIC (35, 37, etc)</em></p>
+<h2 id="c-example">C Example</h2>
+<p>NOTE: When modifying GIC registers in a multi-core system, ensure proper
+synchronization and use appropriate memory barriers. This prevents race
+conditions and ensures that changes are visible across all cores.
+This example is <!-- raw HTML omitted -->NOT<!-- raw HTML omitted --> a final product.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#define GIC_ENABLER_BASE_ADDR                     0xF9010000U
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define IC_ENABLER_OFFSET(n)                (0x180 + (4 * n))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define IS_ENABLER_OFFSET(n)                (0x100 + (4 * n))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define BITS_PER_REGISTER                                  32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define REG_INDEX(int_num)      (int_num / BITS_PER_REGISTER)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define BIT_POSITION(int_num)   (int_num % BITS_PER_REGISTER)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> INTID <span style="color:#f92672">=</span> <span style="color:#ae81ff">138</span>; <span style="color:#75715e">// arbitrary #
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Calculate the register index and bit position for the interrupt
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">uint32_t</span> reg_index <span style="color:#f92672">=</span> <span style="color:#a6e22e">REG_INDEX</span>(INTID);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> bit_position <span style="color:#f92672">=</span> <span style="color:#a6e22e">BIT_POSITION</span>(INTID);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Calculate the memory offset for the clear-enable register
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">uint32_t</span> clear_enable_offset <span style="color:#f92672">=</span> <span style="color:#a6e22e">IC_ENABLER_OFFSET</span>(reg_index);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Get a pointer to the clear-enable register
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">*</span> enabler_offset <span style="color:#f92672">=</span> (<span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">*</span>)((<span style="color:#66d9ef">uint8_t</span><span style="color:#f92672">*</span>)mapped_base <span style="color:#f92672">+</span> clear_enable_offset);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Set the bit to disable the interrupt
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">*</span>enabler_offset <span style="color:#f92672">|=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> bit_position);
+</span></span></code></pre></div><h2 id="references">References</h2>
+<ul>
+<li>ARM Generic Interrupt Controller Architecture Specification (12.9.7, 12.9.26)</li>
+<li>Zynq UltraScale+ Device TRM (UG1085) (Table 13-1)</li>
+<li>Zynq UltraScale+ Devices Register Reference (UG1087) (GIC400 Module)</li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

@@ -1,7 +1,7 @@
 +++
 date = '2024-06-08T21:00:34-08:00'
 draft = false
-title = 'Beaglebone BusyBox RFS'
+title = 'BeagleBone BusyBox RFS'
 toc = true
 tocBorder = true
 +++
@@ -14,7 +14,7 @@ git checkout -b 2024.02
 ```
 
 ## ncurses fix for menuconfig
-> its not the exact file/location but you can infer
+- its not the exact file/location but you can infer
 ```diff
 diff --git a/tools/kconfig/lxdialog/check-lxdialog.sh b/tools/kconfig/lxdialog/check-lxdialog.sh
 index e9daa627..6408baae 100755

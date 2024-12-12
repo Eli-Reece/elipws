@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Install clang
+# RHEL
+yum install clang clang-tools-extra llvm
+# Arch
+pacman -S clang
+# etc ...
+Clone your kernel
+export KERNEL_REPO=&#34;https://github.com/Xilinx/linux-xlnx.git&#34;
+export KERNEL_VER=&#34;xlnx_rebase_v6.6_LTS_2024.2&#34;
+git clone --depth 1 -b ${KERNEL_VER} ${KERNEL_REPO}
+cd linux-xlnx
+git checkout -f
+git clean -fdx
+Configure the kernel
+make CC=clang defconfig
+# or if you have a CROSS_COMPILER
+make CC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
+Build the kernel
+make CC=clang
+# or if you have a CROSS_COMPILER
+make CC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+Generate the .json
+python ./scripts/clang-tools/gen_compile_commands.py
+find . -maxdepth 1 -type f -name &#34;compile*&#34;
+./compile_commands.json
+Link the .json into your directory
+cd ${mycodebase}
+ln -s ${LINUX_ROOT}/src/kernel/linux-xlnx/compile_commands.json .
+Install Clangd Extension in VSCode
+
+You should also install the C/C&#43;&#43; extension">  
+
+  <title>
+    
+      Using Clangd &amp; VSCode for kernel dev
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.eefee2ed59a087e4bb7924f0558deb11e6de47fd5921a110be0b5adaefa4a1af71328a7b8461e5db1fe12038cfdee194e5361566275f8e8d99696f51e1625e6c.css" integrity="sha512-7v7i7Vmgh&#43;S7eSTwVY3rEebeR/1ZIaEQvgta2u&#43;koa9xMop7hGHl2x/hIDjP3uGU5TYVZidfjo2ZaW9R4WJebA==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-09-13 20:39:14 -0800 -0800">
+                            2024-09-13
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Using Clangd &amp; VSCode for kernel dev</h1>
+
+    
+
+    <h2 id="install-clang">Install clang</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># RHEL</span>
+</span></span><span style="display:flex;"><span>yum install clang clang-tools-extra llvm
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Arch</span>
+</span></span><span style="display:flex;"><span>pacman -S clang
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># etc ...</span>
+</span></span></code></pre></div><h2 id="clone-your-kernel">Clone your kernel</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export KERNEL_REPO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/Xilinx/linux-xlnx.git&#34;</span>
+</span></span><span style="display:flex;"><span>export KERNEL_VER<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xlnx_rebase_v6.6_LTS_2024.2&#34;</span>
+</span></span><span style="display:flex;"><span>git clone --depth <span style="color:#ae81ff">1</span> -b <span style="color:#e6db74">${</span>KERNEL_VER<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KERNEL_REPO<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>cd linux-xlnx
+</span></span><span style="display:flex;"><span>git checkout -f
+</span></span><span style="display:flex;"><span>git clean -fdx
+</span></span></code></pre></div><h2 id="configure-the-kernel">Configure the kernel</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make CC<span style="color:#f92672">=</span>clang defconfig
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or if you have a CROSS_COMPILER</span>
+</span></span><span style="display:flex;"><span>make CC<span style="color:#f92672">=</span>clang ARCH<span style="color:#f92672">=</span>arm64 CROSS_COMPILE<span style="color:#f92672">=</span>aarch64-linux-gnu- defconfig
+</span></span></code></pre></div><h2 id="build-the-kernel">Build the kernel</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make CC<span style="color:#f92672">=</span>clang
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or if you have a CROSS_COMPILER</span>
+</span></span><span style="display:flex;"><span>make CC<span style="color:#f92672">=</span>clang ARCH<span style="color:#f92672">=</span>arm64 CROSS_COMPILE<span style="color:#f92672">=</span>aarch64-linux-gnu-
+</span></span></code></pre></div><h2 id="generate-the-json">Generate the .json</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python ./scripts/clang-tools/gen_compile_commands.py
+</span></span><span style="display:flex;"><span>find . -maxdepth <span style="color:#ae81ff">1</span> -type f -name <span style="color:#e6db74">&#34;compile*&#34;</span>
+</span></span><span style="display:flex;"><span>./compile_commands.json
+</span></span></code></pre></div><h2 id="link-the-json-into-your-directory">Link the .json into your directory</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd <span style="color:#e6db74">${</span>mycodebase<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>ln -s <span style="color:#e6db74">${</span>LINUX_ROOT<span style="color:#e6db74">}</span>/src/kernel/linux-xlnx/compile_commands.json .
+</span></span></code></pre></div><h2 id="install-clangd-extension-in-vscode">Install Clangd Extension in VSCode</h2>
+<blockquote>
+<p>You should also install the C/C++ extension</p>
+</blockquote>
+<h2 id="update-your-makefile">Update your Makefile</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Makefile" data-lang="Makefile"><span style="display:flex;"><span><span style="color:#75715e"># special target example for Clang compilation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">clang</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">$(</span>MAKE<span style="color:#66d9ef">)</span> <span style="color:#960050;background-color:#1e0010">driver</span> CC<span style="color:#f92672">=</span>clang ARCH<span style="color:#f92672">=</span>arm64 CROSS_COMPILE<span style="color:#f92672">=</span>aarch64-linux-gnu-
+</span></span></code></pre></div><h2 id="optional-add-clangd-arguments-to-your-vscodesettingsjson">(Optional) Add clangd arguments to your vscode/settings.json</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>     <span style="color:#960050;background-color:#1e0010">...,</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&#34;clangd.arguments&#34;</span>: [
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#34;--background-index&#34;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#34;--clang-tidy&#34;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#34;--header-insertion=never&#34;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#34;--suggest-missing-includes&#34;</span>
+</span></span><span style="display:flex;"><span>     ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</article>
+
+            </div>
+        </main>
+    </body></html>
