@@ -8,7 +8,7 @@
             const trackElement = document.getElementById('random-track');
             const tracks = JSON.parse(trackElement.dataset.tracks);
             const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
-            trackElement.innerHTML = `<a href="${randomTrack.url}">${randomTrack.artist} - ${randomTrack.track}</a>`;
+            trackElement.innerHTML = `<a href="${randomTrack.url}" target="_blank" rel="noopener noreferrer">${randomTrack.artist} - ${randomTrack.track}</a>`;
         });
     </script>
 {{ else }}
