@@ -1,0 +1,9 @@
+{{ $json := resources.Get "data/soundcloud-tracks.json" }}
+{{ if $json }}
+    {{ $data := $json | transform.Unmarshal }}
+    {{ $randomTrack := index $data.tracks (math.Mod now.UnixNano (len $data.tracks)) }}
+    <a href="{{ $randomTrack.url }}">{{ $randomTrack.artist }} - {{ $randomTrack.track }} </a>
+{{ else }}
+    <!-- For debugging -->
+    <p>Could not load JSON file</p>
+{{ end }}
