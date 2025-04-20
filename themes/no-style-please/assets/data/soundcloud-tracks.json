@@ -1,4 +1,5 @@
 {
+    
     "tracks": [
         {
             "artist": "sempra",
@@ -86,11 +87,6 @@
             "url": "https://soundcloud.com/dademolitionsquad/on-the-level"
         },
         {
-            "artist": "\\u0410\\u043D\\u0433\\u0435\\u043B\\u043E\\u0447\\u0435\\u043A",
-            "track": "let me be your fantasy",
-            "url": "https://soundcloud.com/x0360/let-me-be-your-fantasy"
-        },
-        {
             "artist": "D. Futers",
             "track": "All Junglist",
             "url": "https://soundcloud.com/user-172946702/d-futers-all-junglist"
@@ -141,314 +137,109 @@
             "url": "https://soundcloud.com/efanuk/michael-jackson-heaven-can-wait-efan-bootleg-remix"
         },
         {
-            "artist": "Baxter",
-            "track": "RAMBO",
-            "url": "https://soundcloud.com/baxter-uk/rambo"
-        },
-        {
-            "artist": "DATSKO",
-            "track": "Children (Remix)",
-            "url": "https://soundcloud.com/datskobeats/children-datsko-remix"
-        },
-        {
             "artist": "SANDY",
             "track": "Eye for a Eye | Skin On Skin | BOILER ROOM Remake",
             "url": "https://soundcloud.com/sandyflagg/skin-on-skin-eye-for-a-eye-clean-boiler-room-edit"
-          },
-          {
+        },
+        {
             "artist": "DJ Planet Express",
             "track": "so much in love (djpe edit)",
             "url": "https://soundcloud.com/djplanetexpress/so-much-in-love-djpe-edit"
-          },
-          {
+        },
+        {
             "artist": "Breaka",
             "track": "Coco Bryce - Want U (Breaka Remix)",
             "url": "https://soundcloud.com/breaka/coco-bryce-want-u-breaka-remix"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "FORBIDDEN FRUIT ..",
-            "url": "https://soundcloud.com/secret-bennyrevival/forbidden-fruit"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "LUCIFER ..",
-            "url": "https://soundcloud.com/secret-bennyrevival/lucifer"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "CRY BABY ..",
-            "url": "https://soundcloud.com/bennyrevival-glaadgame/cry-baby"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "FREAKSHOW (PROD. EVILGIANE)",
-            "url": "https://soundcloud.com/crystalin-insulin/black-kray-aka-sickboyrari-freakshow"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "CAT STACCS (PROD LINCOLN MINAJ)",
-            "url": "https://soundcloud.com/blackkray/black-kray-aka-lil-rari-b00-cat-staccs-prod-lincoln-minaj"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "4. C2G [PROD JAGUARCLAW]",
-            "url": "https://soundcloud.com/blackkray/4-c2g-prod-jaguarclaw"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "HUG LIKE DAT (PROD LINCOLNMINAJ) ☆☆☆☆",
-            "url": "https://soundcloud.com/blackkray/black-kray-hug-like-dat-prod-lincolnminaj"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "HITSCENE ####",
-            "url": "https://soundcloud.com/blackkray/sickboyrari-hitscene"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "90210 [PROD LOUDMOUF KANG]",
-            "url": "https://soundcloud.com/blackkrayymusic2/sickboyrari-aka-black-kray-90210-prod-loudmouf-kang"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "CATCHMEOUTSIDE",
-            "url": "https://soundcloud.com/blackkray/sickboyrari-catchmeoutside-prod-jaguarclaw"
-          },
-          {
-            "artist": "SICKBOYRARI",
-            "track": "POUNDS",
-            "url": "https://soundcloud.com/blackkray/sickboyrari-pounds-prod-free-diesel-4000-dagreez-roadrunner-musik-2k19-summa-hit"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "€'s On Me Like Evisus(PROD EVILGIANE X LANDIS)",
-            "url": "https://soundcloud.com/blackkray/5-s-on-me-like-evisusprod-evilgiane-x-landis"
-          },
-          {
-            "artist": "BLACK KRAY",
-            "track": "6. DOWN 4 LYFE (PROD BSULV)",
-            "url": "https://soundcloud.com/blackkray/6-down-4-lyfe-prod-bsulv"
-          },
-          {
-            "artist": "Brent Faiyaz and Joony and ISO Supremacy",
-            "track": "Paper Soldier (feat. Joony)",
-            "url": "https://soundcloud.com/brentfaiyaz/paper-soldier-feat-joony-1"
-          },
-          {
-            "artist": "Brent Faiyaz",
-            "track": "Best Time",
-            "url": "https://soundcloud.com/brentfaiyaz/best-time"
-          },
-          {
-            "artist": "Brent Faiyaz",
-            "track": "Been Away",
-            "url": "https://soundcloud.com/brentfaiyaz/been-away"
-          },
-          {
-            "artist": "Cedarwood State Trax",
-            "track": "You're My Last Breath",
-            "url": "https://soundcloud.com/cedarwood-state-trax/youre-my-last-breath"
-          },
-          {
-            "artist": "Chief Keef",
-            "track": "Me (Ft. Tadoe)",
-            "url": "https://soundcloud.com/chiefkeef/m-e"
-          },
-          {
-            "artist": "Uknown Artist",
-            "track": "Four Four Premiere: Unknown Artist - Cry Me A River [Artfully Dodged Mix]",
-            "url": "https://soundcloud.com/fourfourmagazine/unknown-artist-cry-me-a-river-artfully-dodged-mix"
-          },
-          {
-            "artist": "Interplanetary Criminal",
-            "track": "Never",
-            "url": "https://soundcloud.com/interplanetary-criminal/never"
-          },
-          {
-            "artist": "Scarzzy",
-            "track": "Radiohead Flip",
-            "url": "https://soundcloud.com/scarzzy/scarzzy-radiohead-flip-eiirp"
-          },
-          {
-            "artist": "Sensei Milla",
-            "track": "My Life Dub",
-            "url": "https://soundcloud.com/user-844442804/my-life-dub"
-          },
-          {
-            "artist": "DJ FITZ",
-            "track": "ungle Did It First",
-            "url": "https://soundcloud.com/djbenfitz/dj-fitz-jungle-did-it-first"
-          },
-          {
-            "artist": "Smash29k",
-            "track": "No Comment",
-            "url": "https://soundcloud.com/smash29k/yeat-no-comment-smash29k"
-          },
-          {
-            "artist": "SMash29k",
-            "track": "Yeat -  Kant Relax [Smash29k X Goyxrd X Kappafvr]",
-            "url": "https://soundcloud.com/smash29k/yeat-kant-relax-smash29k-x"
-          },
-          {
-            "artist": "Smash29k Archive ✧, Smash29k",
-            "track": "Yeat - Outside (feat Young Thug)",
-            "url": "https://soundcloud.com/smash29k/yeat-outside-feat-young-thug-prod-smash29k-dreamthug-dj-ob1-exclusive"
-          },
-          {
-            "artist": "Smash29k",
-            "track": "Yeat - Rollin (Smash29k)",
-            "url": "https://soundcloud.com/prodsmash/yeat-rollin-smash29k"
-          },
-          {
-            "artist": "Smash29k",
-            "track": "Yeat - On Tha Line (Smash29k)",
-            "url": "https://soundcloud.com/prodsmash/yeat-on-tha-line-smash29k"
-          },
-          {
-            "artist": "Smash29k Archive ✧, Smash29k",
-            "track": "Yeat - Jump (Prod Smash29k + Epv) [DREAMTHUG + DJ OB1 EXCLUSIVE]",
-            "url": "https://soundcloud.com/smash29k/yeat-jump-prod-smash29k-epv-dreamthug-dj-ob1-exclusive"
-          },
-          {
-            "artist": "SMASH29K",
-            "track": "Yeat - Nvr Again [ @Smash29k ]",
-            "url": "https://soundcloud.com/smash29k/yeat-nvr-again-smash29k"
-          },
-          {
-            "artist": "Smash29k",
-            "track": "Yeat - Lul M [Smash29k]",
-            "url": "https://soundcloud.com/smash29k/yeat-lul-m-smash29k"
-          },
-          {
+        },
+        {
             "artist": "dinnboi",
             "track": "Have You Ever Thought",
             "url": "https://soundcloud.com/dinnboi/have-you-ever-thought-1"
-          },
-          {
+        },
+        {
             "artist": "DJ Cinéma Quartier Latin",
             "track": "Need Someone",
             "url": "https://soundcloud.com/cinemaquartierlatin/need-someone"
-          },
-          {
+        },
+        {
             "artist": "DJ Swagger &amp; DJ ÆDIDIAS",
             "track": "Track 3",
             "url": "https://soundcloud.com/cool2source/dj-swagger-dj-aedidias-track-3"
-          },
-          {
+        },
+        {
             "artist": "Treeman",
             "track": "Lost- Jorja Smith [Treeman Flip]",
             "url": "https://soundcloud.com/treeman317/lost-jorja-smith-treeman-flip"
-          },
-          {
+        },
+        {
             "artist": "Saile",
             "track": "Saile - Things You Do [Down By The Lake]",
             "url": "https://soundcloud.com/wax_we_love/saile-things-you-do"
-          },
-          {
+        },
+        {
             "artist": "Baltra",
             "track": "Luv-N-Me (Extended Version)",
             "url": "https://soundcloud.com/baltra/luv-n-me-extended-version"
-          },
-          {
-            "artist": "HOUZ",
-            "track": "Drake - 4422 Ft. Sampha (DATSKO Edit) [HZRX]",
-            "url": "https://soundcloud.com/houzmusicblog/drake-4422-ft-sampha-datsko-edit-hzrx"
-          },
-          {
-            "artist": "lil paycheck",
-            "track": "Daymare [prod. basedtj]",
-            "url": "https://soundcloud.com/lilsremmandyae/daymare"
-          },
-          {
-            "artist": "lil paycheck",
-            "track": "Bobain [prod. basedtj]",
-            "url": "https://soundcloud.com/lilsremmandyae/bobain-prod-basedtj"
-          },
-          {
-            "artist": "Rob $urreal",
-            "track": "Taliban Trizzy - Elimination (Prod. Rob Surreal x Badmon56K)",
-            "url": "https://soundcloud.com/rob-surreal/taliban-trizzy-elimination"
-          },
-          {
+        },
+        {
             "artist": "Nia Archives, Mount Kimbie",
             "track": "No Need 2 Be Sorry, Call Me? (Mount Kimbie Remix) [feat. Maverick Sabre]",
             "url": "https://soundcloud.com/nia-archives/no-need-2-be-sorry-call-me-1"
-          },
-          {
+        },
+        {
             "artist": "Oli Dawes",
             "track": "Urban Jungle - Back In The Days (Sexy Ladys Mix)",
             "url": "https://soundcloud.com/olidawes/urban-jungle-back-in-the-days-sexy-ladys-mix"
-          },
-          {
+        },
+        {
             "artist": "Drum and Bass/Jungle",
             "track": "Shogun - Nautilus",
             "url": "https://soundcloud.com/charlie-tyler-213104902/shogun-nautilus"
-          },
-          {
+        },
+        {
             "artist": "SixTN",
             "track": "Untitled - Xxtarlit⚸",
             "url": "https://soundcloud.com/nani_sore/untitled"
-          },
-          {
+        },
+        {
             "artist": "lildeath",
             "track": "moment (feat. imogen heap)",
             "url": "https://soundcloud.com/vierrecloud/moment-rondocheek-x-vierrecloud"
-          },
-          {
+        },
+        {
             "artist": "ANSZA",
             "track": "Harder Y Harder",
             "url": "https://soundcloud.com/ec2a/ansza-harder-y-harder"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "WHOOP ..",
-            "url": "https://soundcloud.com/bennyrevival-northflorida/whoop"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "FORTY ..",
-            "url": "https://soundcloud.com/bennyrevival-remnant/forty"
-          },
-          {
-            "artist": "BennY RevivaL",
-            "track": "SPLASH ..",
-            "url": "https://soundcloud.com/bennyrevival-remnant/splash"
-          },
-          {
+        },
+        {
             "artist": "Jonny Faith",
             "track": "Dj Shadow - Midnight In A Perfect World (Jonny Faith Junglist Remix)",
             "url": "https://soundcloud.com/jonnyfaith/dj-shadow-midnight-in-a-perfect-world-jonny-faith-junglist-remix"
-          },
-          {
-            "artist": "ian",
-            "track": "End Up Gone",
-            "url": "https://soundcloud.com/suburbancerberus/end-up-gone"
-          },
-          {
+        },
+        {
             "artist": "Passing Currents",
             "track": "'BIMMER'",
             "url": "https://soundcloud.com/passingcurrents/bimmer"
-          },
-          {
+        },
+        {
             "artist": "HNDY.",
             "track": "Show Me How (Jungle Flip)",
             "url": "https://soundcloud.com/hndy18/hndy-show-me-how-jungle-flip-free-dl"
-          },
-          {
+        },
+        {
             "artist": "D_LIGHT",
             "track": "Are You Mine?",
             "url": "https://soundcloud.com/dan_light/are-you-mine"
-          },
-          {
+        },
+        {
             "artist": "Dead Man's Chest / Eveson",
             "track": "Dead Man's Chest - Tears (Fantazia Version)",
             "url": "https://soundcloud.com/eveson/dead-mans-chest-tears-fantasia-version"
-          },
-          {
+        },
+        {
             "artist": "DJ FITZ",
             "track": "You're in My System (DJ FITZ Bootleg)",
             "url": "https://soundcloud.com/djbenfitz/youre-in-my-system-dj-fitz-bootleg"
-          }
+        }
     ]
 }
